@@ -43,7 +43,8 @@ export const SignInPage:React.FC = () =>{
           <span j-form-label>邮箱地址{error.email?.[0] && <span text-blue>{error.email[0]}</span>}</span>
           <input j-input-text type="text" placeholder='请输入邮箱，然后点击发送验证码' 
           value={data.email} onChange={e => setData({email: e.target.value})}
-          />
+          />  
+          {/**基本上所有的input 都会有这个写法  value={data.email} onChange={e => setData({email: e.target.value}) 变得是email 类似于监听e.target.value的值*/}
         </div>
         <div>
           <span j-form-label>验证码{error.code?.[0] && <span text-blue>{error.code[0]}</span>}</span>

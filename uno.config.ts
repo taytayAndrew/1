@@ -6,6 +6,7 @@ import {
 export default defineConfig({
   theme: {
   },
+  rules:[['h-screen',{ height: 'calc(100vh - var(--vh-offset, 0px))'} ]],
   shortcuts: {
   'q-btn':'h-48px w-100% bg-#33cbda text-white b-none  rounded-8px',
    'j-btn': 'h-48px w-100% bg-#5C33BE b-none text-white text-18px rounded-8px',

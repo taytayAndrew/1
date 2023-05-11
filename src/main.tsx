@@ -6,7 +6,8 @@ import './global.scss'
 import 'virtual:uno.css'
 import './app.scss'
 import 'virtual:svgsprites'
-
+import vhCheck from 'vh-check'
+const test = vhCheck()
 const div = document.getElementById('root') as HTMLElement
 
 const root = ReactDOM.createRoot(div)
