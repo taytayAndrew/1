@@ -25,6 +25,7 @@ export const WelcomeLayout: React.FC = () => {
   const outlet = useOutlet()
   const main = useRef<HTMLElement>(null)
   const { direction } = useSwipe(main)
+  console.log({direction})
   map.current[location.pathname] = outlet
   const transitionRef = useRef({})
   const translateX = direction === 'right' ? -100 : 100

@@ -7,23 +7,39 @@ interface Config {
   onTouchEnd?: (e: TouchEvent) => void
 }
 export const useSwipe = (elementRef: RefObject<HTMLElement>, config?: Config) => {
-  const [direction, setDirection] = useState<'' | 'left' | 'right'>('')
+  const [direction, setDirection] = useState<'' | 'left' | 'right'|'up'|'down'>('')
   const x = useRef(-1)
+  const y = useRef(-1)
   const onTouchStart = (e: TouchEvent) => {
     config?.onTouchStart?.(e)
     x.current = e.touches[0].clientX
+    y.current = e.touches[0].clientY
   }
   const onTouchMove = (e: TouchEvent) => {
     config?.onTouchMove?.(e)
     const newX = e.touches[0].clientX
-    const d = newX - x.current
-    if (Math.abs(d) < 3) {
-      setDirection('')
-    } else if (d > 0) {
-      setDirection('right')
-    } else {
-      setDirection('left')
+    const newY = e.touches[0].clientY
+    const dX = newX - x.current
+    const dY = newY - y.current
+    if(Math.abs(dX)>Math.abs(dY)){
+      if (Math.abs(dX) < 3) {
+        setDirection('')
+      } else if (dX > 0) {
+        setDirection('right')
+      } else {
+        setDirection('left')
+      }
     }
+    else{
+      if (Math.abs(dY) < 3) {
+        setDirection('')
+      } else if (dY > 0) {
+        setDirection('down')
+      } else {
+        setDirection('up')
+      }
+    }
+   
   }
   const onTouchEnd = (e: TouchEvent) => {
     config?.onTouchEnd?.(e)
