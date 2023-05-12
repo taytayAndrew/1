@@ -1,6 +1,14 @@
+import { useNavigate } from 'react-router-dom'
 import p from '../assets/images/welcome4.svg'
+import { useLocalStore } from '../stores/useLocalStore'
 
 export const Welcome4: React.FC = () => {
+  const nav = useNavigate()
+  const { setHasReadWelcomes } = useLocalStore()
+  const onSkip = () => {
+    setHasReadWelcomes(true)
+    nav('/welcome/xxx')
+  }
   return (
     <div text-center>
       <img src={p} w-129px h-83px />
@@ -8,6 +16,9 @@ export const Welcome4: React.FC = () => {
         云备份 <br />
         再也不怕数据丢失
       </h2>
+      <div mt-64px>
+        <span text-32px color="#6035BF" font-bold onClick={onSkip} >下一页</span>
+      </div>
     </div>
   )
 }
