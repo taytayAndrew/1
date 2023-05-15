@@ -1,8 +1,8 @@
 import React from "react";
-import s from './TimeRangePicker.module.scss'
+import { Tabs } from "./Tab";
 
 interface Props {
-    selected: string ,
+    selected: TimeRanges ,
     onSelected: (selected : TimeRanges) => void 
 }
 export type TimeRanges = 'this month' | 'last month' |'last year'|'diy time';
@@ -14,7 +14,7 @@ const TimeRange :{key: TimeRanges ,text:string}[]  = [
     {key: 'last year' , text: '去年'},
     {key: 'diy time' , text: '自定义事件'}
 ]
- return <ol flex flex-row children-px-24px children-py-16px cursor-pointer> 
-   {TimeRange.map(tr => <li  pointer-cursor className={tr.key === selected ? s.selected : '' } onClick={() => onSelected(tr.key)} key={tr.key}>{tr.text}</li>)}
- </ol>
+ return (
+  <Tabs tableItems={TimeRange} value={selected} onChange={onSelected} />
+ )
 }

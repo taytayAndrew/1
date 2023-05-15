@@ -6,12 +6,14 @@ import { TimeRangePick } from "../components/TimeRangePick"
 import { AddItemFloatButton } from "../components/AddItemFloatButton"
 import { useMenuStore } from '../stores/useMenuStore'
 import { TopMenu } from "../components/TopMenu";
-import { Gradient } from '../components/Gradient'
-import { Icon } from '../components/Icon'
+import { Gradient } from '../components/Gradient';
+import { Icon } from '../components/Icon';
+import type { TimeRanges } from '../components/TimeRangePick';
+
 
 
 export const ItemsPage:React.FC = () =>{
-    const [timeRange ,setTimeRange] = useState('thisMonth')
+    const [timeRange ,setTimeRange] = useState<TimeRanges>('this month')
     const {visible,setVisible} = useMenuStore()
  return <div>
     <Gradient>
