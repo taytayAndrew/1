@@ -5,7 +5,9 @@ import { Tabs } from "../components/Tab";
 import { Topnav } from "../components/Topnav";
 import s from "./ItemsNewPage.module.scss";
 import { Tags } from "./ItemsNewPage/Tags";
-
+import { DateandAmount } from "./ItemsNewPage/DateandAmount";
+import vhCheck from 'vh-check'
+vhCheck()
 
 export const ItemsNewPage: React.FC = () => {
   const tabItems: {
@@ -21,12 +23,12 @@ export const ItemsNewPage: React.FC = () => {
   ];
   const [tabItem, setTabItems] = useState<Item['kind']>("expenses");
   return (
-    <div className={s.wrapper}>
-      <Gradient>
+    <div className={s.wrapper} h-vhcheck flex flex-col>
+      <Gradient className="grow-0 shrink-0">
         <Topnav title="记一笔" icon={<Icon name="back" />} />
       </Gradient>
       <Tabs
-        className='text-center'
+        className='text-center grow-1 shrink-1 overflow-hidden'
         tableItems={tabItems}
         value={tabItem}
         onChange={(tabitem) => {
@@ -34,6 +36,7 @@ export const ItemsNewPage: React.FC = () => {
         }}
         classPrefix="itemsNewTabs"
       />
+      <DateandAmount className="grow-0 shrink-0" />
     </ div>
   );
 };
