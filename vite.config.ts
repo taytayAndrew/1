@@ -13,6 +13,6 @@ export default defineConfig(({ command }) => ({
     Unocss(),
     react(),
     viteMockServe(),
-    svgsprites({noOptimizeList: ['logo','chart','category','export','noty']})//这里可以列出的是可以让icon保持自己原本的颜色的名单
+    svgsprites({noOptimizeList: ['date','logo','chart','category','export','noty']})//这里可以列出的是可以让icon保持自己原本的颜色的名单
   ]
 }))

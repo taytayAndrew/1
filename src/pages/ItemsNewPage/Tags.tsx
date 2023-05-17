@@ -12,8 +12,8 @@ export const Tags: React.FC<Props> = (props) => {
         <li>
           <span  block w-48px h-48px rounded= "24px" bg='#EFEFEF' flex justify-center items-center text-24px><Icon name='add'/></span>
         </li>
-        {tags.map(tag =>
-        <li w-48px  flex flex-col justify-center items-center>
+        {tags.map((tag,index) =>
+        <li key={index} w-48px  flex flex-col justify-center items-center>
           <span block w-48px h-48px rounded= "24px" bg='#EFEFEF' flex justify-center items-center text-24px b-1 b="lightblue">🥵</span>
           <span text-12px>打车</span>
         </li>)
