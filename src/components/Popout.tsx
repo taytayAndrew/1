@@ -34,13 +34,13 @@ export const Popout:React.FC <Props> = (props) =>{
     
  return (
     
-    <div>
+    <div touch-none>
         <animated.div fixed top-0 h-full w-full className="bg-black:75"
-        z="[calc(var(--z-popout)-1)]" style={maskStyles2} onClick={() =>onClickMask?.()}>
+        z="[calc(var(--z-popout)-1)]"  style={maskStyles2} onClick={() =>onClickMask?.()}>
 
         </animated.div>
         <animated.div  fixed bottom-0 left-0 w-full min-h-100px bg-white
-        z="[calc(var(--z-popout))]" style={menuStyles}>
+        z="[calc(var(--z-popout))]"  style={menuStyles}>
 
         </animated.div >
     </div>
