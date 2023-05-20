@@ -1,6 +1,8 @@
 
+import { useState } from "react";
 import { Icon } from "../../components/Icon";
 import { usePopout } from "../../hooks/usePopout";
+import { Datepicker } from "../../components/Datepicker";
 
 type Props = {
   className: string;
@@ -8,7 +10,7 @@ type Props = {
 
 export const DateandAmount: React.FC<Props> = (props) => {
   const { className } = props;
-  const {popout , toggle} = usePopout()
+  const { toggle, popout } = usePopout(true, <Datepicker />)
   return (
     <>
       <div className={className}>

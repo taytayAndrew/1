@@ -1,14 +1,15 @@
-import { useState } from "react"
+import { ReactNode, useState } from "react"
 import { animated, useSpring } from '@react-spring/web'
 
 
 type Props = {
   visible : boolean
   onClickMask?: () => void
+  children?:ReactNode
 }
 
 export const Popout:React.FC <Props> = (props) =>{
-    const {visible,onClickMask } = props
+    const {visible,onClickMask,children } = props
     const [maskVisible, setMaskVisible] = useState(visible)
 
     const maskStyles = useSpring({
@@ -41,7 +42,7 @@ export const Popout:React.FC <Props> = (props) =>{
         </animated.div>
         <animated.div  fixed bottom-0 left-0 w-full min-h-100px bg-white
         z="[calc(var(--z-popout))]"  style={menuStyles}>
-
+          {children}
         </animated.div >
     </div>
     )
