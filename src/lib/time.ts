@@ -85,6 +85,9 @@ type Parts = {
         this.date[methodName](value)
       })
     }
+    get lastDayofMonth() {
+      return new Time(new Date(this.year,this.month-1+1,0))
+    }
     get year() {
       return this.parts.year
     }

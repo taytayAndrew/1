@@ -1,5 +1,4 @@
 
-import { useState } from "react";
 import { Icon } from "../../components/Icon";
 import { usePopout } from "../../hooks/usePopout";
 import { Datepicker } from "../../components/Datepicker";
@@ -10,7 +9,7 @@ type Props = {
 
 export const DateandAmount: React.FC<Props> = (props) => {
   const { className } = props;
-  const { toggle, popout } = usePopout(true, <Datepicker />)
+  const { toggle, popout } = usePopout(true, <Datepicker onChange= {d =>console.log(d.toLocaleString())} />)
   return (
     <>
       <div className={className}>
