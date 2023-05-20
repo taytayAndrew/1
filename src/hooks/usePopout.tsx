@@ -1,23 +1,24 @@
-import { ReactNode, useState } from "react";
-import { Popout } from "../components/Popout";
-import { rootDiv } from "../main";
-import ReactDOM from "react-dom";
+import type { ReactNode } from 'react'
+import { useState } from 'react'
+import ReactDOM from 'react-dom'
+import { Popout } from '../components/Popout'
+import { rootDiv } from '../main'
 
-export const usePopout= (initVisible = false, children: ReactNode) =>{
-
-    const [visible, setVisible] = useState(false);
-    const popout = ReactDOM.createPortal(<Popout visible={visible} onClickMask={() => setVisible(false)} >{children}</Popout>, rootDiv)
-
- return {
+export const usePopout = (initVisible = false, children: ReactNode) => {
+  const [visible, setVisible] = useState(initVisible)
+  const popout = ReactDOM.createPortal(<Popout visible={visible} onClickMask={() => setVisible(false)} >
+    {children}
+  </Popout>, rootDiv)
+  return {
     popout,
-    show(){
-        setVisible(false)
+    show() {
+      setVisible(true)
     },
-    hide(){
-        setVisible(true)
+    hide() {
+      setVisible(false)
     },
-    toggle(){
-        setVisible(!visible)
+    toggle() {
+      setVisible(!visible)
     }
-}
+  }
 }

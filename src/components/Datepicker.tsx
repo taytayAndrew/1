@@ -4,10 +4,11 @@ type Props = {
   start?: Date
   end?: Date
   value?: Date
-  onChange?: (value:Date) => void
+  onCancel?: () => void
+  onConfirm?: (value:Date) => void
 }
 export const Datepicker:React.FC<Props> = (props) =>{
-  const {start , end ,value, onChange} = props
+  const {start , end ,value, onCancel,onConfirm} = props
   const startTime = start? time(start):time().add(-10,'years')
   const endTime = start? time(end):time().add(10,'years')
   const [, update] = useState({})
@@ -19,11 +20,22 @@ export const Datepicker:React.FC<Props> = (props) =>{
     throw new Error('结束时间必须晚于开始时间')
   }
  return (
-  <div flex>
-    <Column className="grow-1" items={yearList} value={valueTime.current.year} onChange={year => {valueTime.current.year = year ; update({}); onChange?.(valueTime.current.date)}}/>
-    <Column className="grow-1" items={monthList} value={valueTime.current.month} onChange={month => {valueTime.current.month=month ; update({}); onChange?.(valueTime.current.date)}}/> 
-    <Column className="grow-1" items={dayList} value={valueTime.current.day} onChange={day => {valueTime.current.day=day ; update({}); onChange?.(valueTime.current.date)}}/> 
+  <div>
+      <div flex justify-between p-8px border-b-1 b="#f3f3f3" children-p-8px>
+        <span onClick={onCancel}>取消</span>
+        <span>时间选择</span>
+        <span onClick={() => onConfirm?.(valueTime.current.date)}>确定</span>
+      </div>
+      <div flex>
+        <Column className="grow-1" items={yearList} value={valueTime.current.year}
+          onChange={year => { valueTime.current.year = year; update({}) }} />
+        <Column className="grow-1" items={monthList} value={valueTime.current.month}
+          onChange={month => { valueTime.current.month = month; update({}) }} />
+        <Column className="grow-1" items={dayList} value={valueTime.current.day}
+          onChange={day => { valueTime.current.day = day; update({}) }} />
+      </div>
   </div>
+ 
   //这里使用useRef是为了避免更新后导致valueTime重新声明 导致日期改变 
   //使用强制更新ForceUpdate const [, update] = useState({})可以强制React更新组件
 

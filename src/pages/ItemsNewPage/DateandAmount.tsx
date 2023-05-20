@@ -2,14 +2,19 @@
 import { Icon } from "../../components/Icon";
 import { usePopout } from "../../hooks/usePopout";
 import { Datepicker } from "../../components/Datepicker";
+import { useState } from "react";
+import { time } from "../../lib/time";
 
 type Props = {
   className: string;
 };
 
 export const DateandAmount: React.FC<Props> = (props) => {
+  const [date,setDate] = useState(new Date())
   const { className } = props;
-  const { toggle, popout } = usePopout(true, <Datepicker onChange= {d =>console.log(d.toLocaleString())} />)
+  const { toggle, popout, hide } = usePopout(false, <Datepicker
+    onConfirm={d => { setDate(d); hide() }}
+    onCancel={() => hide()} />)
   return (
     <>
       <div className={className}>
@@ -25,8 +30,8 @@ export const DateandAmount: React.FC<Props> = (props) => {
           <span flex gap-x-8px items-center onClick={toggle}>
             <Icon name="date" className="w-24px h-24px grow-0 shrink-0" />
           </span>
-          <span grow-0 shrink-0>
-            2001-02-03
+          <span grow-0 shrink-0 text-12px color='#999'>
+            {time(date).format()}
           </span>
           <span grow-1 shrink-1 text-right color="#53A867">
             金额

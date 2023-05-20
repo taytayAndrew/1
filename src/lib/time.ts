@@ -16,9 +16,9 @@ type Parts = {
     return new Time(p)//外部使用可以直接time 而不用new
   }
   export class Time {
-    date: Date
+    #date: Date
     constructor(p?: number | string | Date) {
-      this.date = p ? new Date(p) : new Date()//外部没有参数则传现在目前的时间
+      this.#date = p ? new Date(p) : new Date()//外部没有参数则传现在目前的时间
     }
     /**
      * 格式化输出
@@ -54,16 +54,19 @@ type Parts = {
       return this
     }
     get timestamp() {
-      return this.date.getTime()//gettime是指从January 1, 1970开始到现在的秒数
+      return this.#date.getTime()//gettime是指从January 1, 1970开始到现在的秒数
+    }
+    get date() {
+      return new Date(this.#date)
     }
     get parts(): Parts {
-      const year = this.date.getFullYear()
-      const month = this.date.getMonth() + 1
-      const day = this.date.getDate()
-      const hours = this.date.getHours()
-      const minutes = this.date.getMinutes()
-      const seconds = this.date.getSeconds()
-      const ms = this.date.getMilliseconds()
+      const year = this.#date.getFullYear()
+      const month = this.#date.getMonth() + 1
+      const day = this.#date.getDate()
+      const hours = this.#date.getHours()
+      const minutes = this.#date.getMinutes()
+      const seconds = this.#date.getSeconds()
+      const ms = this.#date.getMilliseconds()
       return {
         year, month, day, hours, minutes, seconds, ms
       }
@@ -82,7 +85,7 @@ type Parts = {
         const k = key as keyof typeof p
         const methodName = table[k]
         value = k === 'month' ? value - 1 : value
-        this.date[methodName](value)
+        this.#date[methodName](value)
       })
     }
     get lastDayofMonth() {
