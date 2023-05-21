@@ -6,6 +6,7 @@ import { useSignInStore } from "../stores/useSignInStore"
 import { hasError, validate } from "../lib/validate"
 import { ajax } from "../lib/ajax"
 import { useNavigate } from "react-router-dom"
+import { Input } from '../components/Input'
 
 export const SignInPage:React.FC = () =>{
     const {data , setData ,setError,error} = useSignInStore()
@@ -39,18 +40,16 @@ export const SignInPage:React.FC = () =>{
       <form j-form onSubmit={onSubmit}>
         {/* <div b-1 b-red>{JSON.stringify(data)}</div> 
         react并不支持渲染对象 */}
-        <div>
-          <span j-form-label>邮箱地址{error.email?.[0] && <span text-blue>{error.email[0]}</span>}</span>
-          <input j-input-text type="text" placeholder='请输入邮箱，然后点击发送验证码' 
-          value={data.email} onChange={e => setData({email: e.target.value})}
-          />  
+          <Input label='邮箱地址' placeholder='请输入邮箱，然后点击发送验证码'
+          value={data.email} onChange={value => setData({ email: value })}
+          error={error.email?.[0]} />
           {/**基本上所有的input 都会有这个写法  value={data.email} onChange={e => setData({email: e.target.value}) 变得是email 类似于监听e.target.value的值*/}
-        </div>
+        
         <div>
           <span j-form-label>验证码{error.code?.[0] && <span text-blue>{error.code[0]}</span>}</span>
           <div flex gap-x-16px >
             <input shrink-1 j-input-text w-129px type="text" placeholder='六位数字'
-            value={data.code} onChange={e => setData({code: e.target.value})}/>
+            value={data.code} onChange={e => setData({code: e.target.value})} />
             <button grow-1 j-btn  >发送验证码</button>
           </div>
         </div>
