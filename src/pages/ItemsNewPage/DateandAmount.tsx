@@ -73,43 +73,43 @@ export const DateandAmount: React.FC<Props> = (props) => {
           bg="#ddd"
           gap-2px
         >
-          <button row-start-1 col-start-1 row-end-2 col-end-2onClick={() => append('1')}>
+          <button row-start-1 col-start-1 row-end-2 col-end-2 onClick={() => append('1')}>
             1
           </button>
-          <button row-start-1 col-start-2 row-end-2 col-end-3onClick={() => append('2')}>
+          <button row-start-1 col-start-2 row-end-2 col-end-3 onClick={() => append('2')}>
             2
           </button>
-          <button row-start-1 col-start-3 row-end-2 col-end-4onClick={() => append('3')}>
+          <button row-start-1 col-start-3 row-end-2 col-end-4 onClick={() => append('3')}>
             3
           </button>
-          <button row-start-2 col-start-1 row-end-3 col-end-2onClick={() => append('4')}>
+          <button row-start-2 col-start-1 row-end-3 col-end-2 onClick={() => append('4')}>
             4
           </button>
-          <button row-start-2 col-start-2 row-end-3 col-end-3onClick={() => append('5')}>
+          <button row-start-2 col-start-2 row-end-3 col-end-3 onClick={() => append('5')}>
             5
           </button>
-          <button row-start-2 col-start-3 row-end-3 col-end-4onClick={() => append('6')}>
+          <button row-start-2 col-start-3 row-end-3 col-end-4 onClick={() => append('6')}>
             6
           </button>
-          <button row-start-3 col-start-1 row-end-4 col-end-2onClick={() => append('7')}>
+          <button row-start-3 col-start-1 row-end-4 col-end-2 onClick={() => append('7')}>
             7
           </button>
-          <button row-start-3 col-start-2 row-end-4 col-end-3onClick={() => append('8')}>
+          <button row-start-3 col-start-2 row-end-4 col-end-3 onClick={() => append('8')}>
             8
           </button>
-          <button row-start-3 col-start-3 row-end-4 col-end-4onClick={() => append('9')}>
+          <button row-start-3 col-start-3 row-end-4 col-end-4 onClick={() => append('9')}>
             9
           </button>
-          <button row-start-4 col-start-1 row-end-5 col-end-3onClick={() => append('0')}>
+          <button row-start-4 col-start-1 row-end-5 col-end-3 onClick={() => append('0')}>
             0
           </button>
-          <button row-start-4 col-start-3 row-end-5 col-end-4onClick={clear}>
+          <button row-start-4 col-start-3 row-end-5 col-end-4 onClick={() => append('.')}>
             .
           </button>
-          <button row-start-1 col-start-4 row-end-3 col-end-5onClick={}>
+          <button row-start-1 col-start-4 row-end-3 col-end-5 onClick={clear}>
             清空
           </button>
-          <button row-start-3 col-start-4 row-end-5 col-end-5onClick={() => append('1')}>
+          <button bg="#7aedfb" text-white row-start-3 col-start-4 row-end-5 col-end-5 onClick={()=>{}}>
             提交
           </button>
           {/* <input value={x}  onChange={e => setX(e.target.value)}/> */}
