@@ -17,13 +17,14 @@ export const EmojiInput: React.FC<Props> = (props) => {
             onClick={() => setEmojiKind(emoji.name)}>{emoji.name}</span>
         )}
       </div>
-      <div text-24px p-t-8px p-b-16px h-400px overflow-auto text-center>
+      <div text-24px p-t-8px p-b-16px h-320px overflow-auto text-center>
         {emojis.map(emoji =>
           <div key={emoji.name} style={{ display: emoji.name === emojiKind ? '' : 'none' }}
             grid grid-cols="[repeat(auto-fit,34px)]" grid-rows="[repeat(auto-fit,34px)]"
             justify-center>
            {emoji.chars.map(char =>
-              <span b-1 b-transparent className={char === value ? s.selected : ''}
+              <span key={char} 
+                b-1 b-transparent className={char === value ? s.selected : ''}
                 rounded-4px
                 onClick={() => value !== char && onChange?.(char)}>{char}</span>
             )}

@@ -13,14 +13,14 @@ export const SignInPage:React.FC = () =>{
     const nav = useNavigate()
     const onSubmit:FormEventHandler<HTMLFormElement> = async(e) =>{
         e.preventDefault()
-            const error = validate(data,[
+            const Newerror = validate(data,[
             {key: 'email' ,type:'required', message:'请输入邮箱地址'},
             {key: 'email' ,type:'pattern',regex:/^.+@.+$/, message:'邮箱地址格式 不正确'},
             {key: 'code' ,type:'required', message:'请输入验证码'}, 
             {key: 'code' ,type:'length',min:4,max:6, message:'验证码必须6位数字'}
         ])
-        setError(error)
-        if(!hasError(error)){
+        setError(Newerror)
+        if(!hasError(Newerror)){
           await ajax.post('/api/v1/session',data)
           nav('/home')
         }
@@ -43,7 +43,9 @@ export const SignInPage:React.FC = () =>{
           <Input label='邮箱地址' placeholder='请输入邮箱，然后点击发送验证码'
           value={data.email} onChange={email => setData({ email })}
           error={error.email?.[0]} />
-          {/**基本上所有的input 都会有这个写法  value={data.email} onChange={e => setData({email: e.target.value}) 变得是email 类似于监听e.target.value的值*/}
+          {/**基本上所有的input 都会有这个写法  value={data.email} 
+           * onChange={e => setData({email: e.target.value}) 
+           * 变得是email 类似于监听e.target.value的值*/}
         
         <div>
           <span j-form-label>验证码{error.code?.[0] && <span text-blue>{error.code[0]}</span>}</span>
