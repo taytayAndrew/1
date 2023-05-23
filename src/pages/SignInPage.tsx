@@ -41,7 +41,7 @@ export const SignInPage:React.FC = () =>{
         {/* <div b-1 b-red>{JSON.stringify(data)}</div> 
         react并不支持渲染对象 */}
           <Input label='邮箱地址' placeholder='请输入邮箱，然后点击发送验证码'
-          value={data.email} onChange={value => setData({ email: value })}
+          value={data.email} onChange={email => setData({ email })}
           error={error.email?.[0]} />
           {/**基本上所有的input 都会有这个写法  value={data.email} onChange={e => setData({email: e.target.value}) 变得是email 类似于监听e.target.value的值*/}
         
