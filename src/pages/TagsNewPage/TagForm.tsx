@@ -29,6 +29,7 @@ export const TagForm:React.FC<Props> = (props) =>{
       if (!id) {
         throw new Error('id必填')
       }
+      console.log(id)
   }, [])
   const onSubmit:FormEventHandler<HTMLFormElement> = (e) =>{
     e.preventDefault()//onSubmit需要取消默认行为
@@ -40,6 +41,8 @@ export const TagForm:React.FC<Props> = (props) =>{
     setError(newError)
     if(!hasError(newError)){
       console.log('五表单错误')
+      console.log(data)
+      
     }
   }
  return (
