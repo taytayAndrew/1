@@ -26,7 +26,17 @@ export const SignInPage:React.FC = () =>{
         }
       }
       
-    
+    const onClickCode = () => {
+      console.log(data.email)
+      const NewError = validate({email: data.email},[
+        {key:'email' , type:'pattern' , regex:/^.+@.+$/, message:'邮箱地址格式 不正确'}
+      ])
+      if(hasError(NewError)){
+        setError(NewError)
+      }else{
+        
+      }
+    }
     
  return (
     <div> 
@@ -42,7 +52,7 @@ export const SignInPage:React.FC = () =>{
         react并不支持渲染对象 */}
           <Input type = 'text'label='邮箱地址' placeholder='请输入邮箱，然后点击发送验证码'
           value={data.email} onChange={email => setData({ email })}
-          error={error.email?.[0]} />
+          error={error.email?.[0]}  />
           {/**基本上所有的input 都会有这个写法  value={data.email} 
            * onChange={e => setData({email: e.target.value}) 
            * 变得是email 类似于监听e.target.value的值*/}
@@ -52,7 +62,7 @@ export const SignInPage:React.FC = () =>{
           <div flex gap-x-16px >
             <input shrink-1 j-input-text w-129px type="text" placeholder='六位数字'
             value={data.code} onChange={e => setData({code: e.target.value})} />
-            <button grow-1 j-btn  >发送验证码</button>
+            <button type="button" grow-1 j-btn onClick={onClickCode} >发送验证码</button>
           </div>
         </div>
         <div mt-100px>
