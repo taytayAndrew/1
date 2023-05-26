@@ -7,6 +7,7 @@ import { hasError, validate } from "../lib/validate"
 import { ajax } from "../lib/ajax"
 import { useNavigate } from "react-router-dom"
 import { Input } from '../components/Input'
+import axios from "axios"
 
 export const SignInPage:React.FC = () =>{
     const {data , setData ,setError,error} = useSignInStore()
@@ -26,7 +27,7 @@ export const SignInPage:React.FC = () =>{
         }
       }
       
-    const onClickCode = () => {
+    const onClickCode = async () => {
       console.log(data.email)
       const NewError = validate({email: data.email},[
         {key:'email' , type:'pattern' , regex:/^.+@.+$/, message:'邮箱地址格式 不正确'}
@@ -34,7 +35,11 @@ export const SignInPage:React.FC = () =>{
       if(hasError(NewError)){
         setError(NewError)
       }else{
-        
+        const response = await axios.post('http://121.196.236.94:8080/api/v1/validation_codes',{
+           email:data.email
+        }
+       )
+       console.log(response)
       }
     }
     
