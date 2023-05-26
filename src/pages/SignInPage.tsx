@@ -40,7 +40,7 @@ export const SignInPage:React.FC = () =>{
       <form j-form onSubmit={onSubmit}>
         {/* <div b-1 b-red>{JSON.stringify(data)}</div> 
         react并不支持渲染对象 */}
-          <Input label='邮箱地址' placeholder='请输入邮箱，然后点击发送验证码'
+          <Input type = 'text'label='邮箱地址' placeholder='请输入邮箱，然后点击发送验证码'
           value={data.email} onChange={email => setData({ email })}
           error={error.email?.[0]} />
           {/**基本上所有的input 都会有这个写法  value={data.email} 

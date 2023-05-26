@@ -4,8 +4,10 @@ import { Icon } from "../components/Icon";
 import { TimeRangePick } from "../components/TimeRangePick";
 import { Topnav } from "../components/Topnav";
 import type { TimeRanges } from "../components/TimeRangePick";
-import * as echarts from "echarts";
 import { LineChart } from "../components/LineChart";
+import { PieChart } from "../components/PieChart";
+import { RankChart } from "../components/RankChart";
+import { Input } from "../components/Input";
 
 export const StatisticsPage: React.FC = () => {
   const [timeRange, setTimeRange] = useState<TimeRanges>("this month");
@@ -41,7 +43,19 @@ export const StatisticsPage: React.FC = () => {
     { date: '2000-01-28', value: 155000 },
     { date: '2000-01-29', value: 155000 },
     { date: '2000-01-31', value: 10000 }
-  ].map(item => ({x:item.date , y:item.value}))
+  ].map(item => ({x:item.date , y:item.value / 100}))
+  const items2 = [
+    { tag: '吃吃吃', amount: 10000 },
+    { tag: '看电影', amount: 20000 },
+    { tag: '充值游戏', amount: 64800 },
+    { tag: '出去玩', amount: 100000 },
+  ].map(item => ({ x: item.tag, y: item.amount / 100 }))
+  const items3 = [
+    { tag: { name: '吃吃吃', sign: '😨' }, amount: 10000 },
+    { tag: { name: '看电影', sign: '🥱' }, amount: 20000 },
+    { tag: { name: '充值游戏', sign: '😶‍🌫️' }, amount: 64800 }
+  ].map(item => ({name: item.tag.name,value:item.amount,sign:item.tag.sign}))
+  const [x,setX] = useState('expenses')
   return (
     <div>
       <Gradient>
@@ -50,8 +64,20 @@ export const StatisticsPage: React.FC = () => {
           icon={<Icon name="back" className="w-24px h-24px" />}
         />
         <TimeRangePick selected={timeRange} onSelected={setTimeRange} />
-      </Gradient>{" "}
-      <LineChart className="h-400px" items={items}/>
+      </Gradient>
+      <div>
+        <span>类型</span>
+        <div>
+          <Input type='select' options = {[
+            { text: '支出', value: 'expenses' },
+            { text: '收入', value: 'income' },
+          ]} value={x} onChange={value => setX(value)  }disableError/> 
+          
+        </div>
+      </div>
+      <LineChart className="h-120px m-t-16px" items={items}/>
+      <PieChart  className="h-260px" items={items2} />
+      <RankChart  className="m-t-8px" items={items3} />
     </div>
   );
 };
