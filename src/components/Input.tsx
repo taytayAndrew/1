@@ -12,7 +12,7 @@ type Props = {
 }&(
   | { type: 'text' }
   | { type: 'emoji' }
-  | { type: 'sms_code' ; onClick:() => void}
+  | { type: 'sms_code' ; request:() => Promise<unknown>}
   | { type: 'select'; options: { value: string; text: string }[] }
 )
 export const Input: React.FC<Props> = (props) => {
@@ -27,7 +27,7 @@ export const Input: React.FC<Props> = (props) => {
         return <EmojiInput value={value} onChange={value => onChange?.(value)} />
         case 'sms_code':
           return (
-            <SmsCodeInput value={value} onChange={onChange} placeholder={placeholder} onClick={props.onClick}/>
+            <SmsCodeInput value={value} onChange={onChange} placeholder={placeholder} request={props.request}/>
           )
           case 'select':
             return <select value={value} onChange={e => onChange?.(e.target.value)}
