@@ -58,21 +58,16 @@ export const SignInPage:React.FC = () =>{
       <form j-form onSubmit={onSubmit}>
         {/* <div b-1 b-red>{JSON.stringify(data)}</div> 
         react并不支持渲染对象 */}
-          <Input type = 'text'label='邮箱地址' placeholder='请输入邮箱，然后点击发送验证码'
+          <Input type="text" label='邮箱地址' placeholder='请输入邮箱，然后点击发送验证码'
           value={data.email} onChange={email => setData({ email })}
           error={error.email?.[0]}  />
           {/**基本上所有的input 都会有这个写法  value={data.email} 
            * onChange={e => setData({email: e.target.value}) 
            * 变得是email 类似于监听e.target.value的值*/}
-        
-        <div>
-          <span j-form-label>验证码{error.code?.[0] && <span text-blue>{error.code[0]}</span>}</span>
-          <div flex gap-x-16px >
-            <input shrink-1 j-input-text w-129px type="text" placeholder='六位数字'
-            value={data.code} onChange={e => setData({code: e.target.value})} />
-            <button type="button" grow-1 j-btn onClick={onClickCode} >发送验证码</button>
-          </div>
-        </div>
+        <Input label='邮箱地址' type="sms_code" placeholder='六位数字'
+          value={data.code} onChange={code => setData({code })}
+          error={error.email?.[0]}  request={onClickCode}/>
+      
         <div mt-100px>
           <button j-btn type="submit">登录</button>
         </div>

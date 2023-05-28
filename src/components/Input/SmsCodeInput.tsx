@@ -10,11 +10,7 @@ export const SmsCodeInput :React.FC<Props> = (props) =>{
     const {value , placeholder , onChange , request} = props
     const onClick = async () =>{
        if(!request){return }
-      //  await request().then(() =>{
-
-      //  },() =>{
-
-      //  })
+       await request()
     }
  return (
     <div flex gap-x-16px>
