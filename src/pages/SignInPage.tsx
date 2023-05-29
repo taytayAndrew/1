@@ -3,15 +3,19 @@ import { Gradient } from "../components/Gradient"
 import { Icon } from "../components/Icon"
 import { Topnav } from "../components/Topnav"
 import { useSignInStore } from "../stores/useSignInStore"
-import { hasError, validate } from "../lib/validate"
+import { FormError, hasError, validate } from "../lib/validate"
 import { ajax } from "../lib/ajax"
 import { useNavigate } from "react-router-dom"
 import { Input } from '../components/Input'
-import axios from "axios"
+import axios, { AxiosError } from "axios"
 
 export const SignInPage:React.FC = () =>{
     const {data , setData ,setError,error} = useSignInStore()
     const nav = useNavigate()
+    const onSubmitError = (err:AxiosError<{errors : FormError<typeof data>}>) =>{
+        setError(err.response?.data?.errors ?? {})
+        throw error
+    }
     const onSubmit:FormEventHandler<HTMLFormElement> = async(e) =>{
         e.preventDefault()
             const Newerror = validate(data,[
@@ -22,7 +26,10 @@ export const SignInPage:React.FC = () =>{
         ])
         setError(Newerror)
         if(!hasError(Newerror)){
-          await ajax.post('/api/v1/session',data)
+          const response = await ajax.post<{jwt : string}>('http://121.196.236.94:8080/api/v1/session',data).catch(onSubmitError)
+          const jwt = response.data.jwt
+          console.log('jwt',jwt)
+          localStorage.setItem('jwt',jwt)
           nav('/home')
         }
       }
