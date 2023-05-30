@@ -8,6 +8,7 @@ import { AddItemFloatButton } from '../components/AddItemFloatButton'
 interface Props {
   title?: string
 }
+//不要使用默认header来设置 authorazation
 export const Home: React.FC<Props> = (props) => {
   useTitle(props.title)
   const { data: meData, error: meError } = useSWR('/api/v1/me', async path =>
