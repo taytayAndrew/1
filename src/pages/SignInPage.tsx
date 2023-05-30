@@ -7,11 +7,7 @@ import { FormError, hasError, validate } from "../lib/validate"
 import { useAjax } from "../lib/ajax"
 import { useNavigate } from "react-router-dom"
 import { Input } from '../components/Input'
-import axios, { AxiosError } from "axios"
-import { Datepicker } from "../components/Datepicker"
-import { usePopout } from "../hooks/usePopout"
-import styled from "styled-components"
-import { useLoadingStore } from "../stores/useLoadingStore"
+import { AxiosError } from "axios"
 
 export const SignInPage:React.FC = () =>{
   
