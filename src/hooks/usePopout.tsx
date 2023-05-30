@@ -3,10 +3,15 @@ import { useState } from 'react'
 import ReactDOM from 'react-dom'
 import { Popout } from '../components/Popout'
 import { rootDiv } from '../main'
-
-export const usePopout = (initVisible = false, children: ReactNode) => {
+type Options = {
+  initVisible?: boolean
+  children: ReactNode
+  position?: 'bottom' | 'center'
+}
+export const usePopout = (props:Options) => {
+  const { initVisible = false, children, position } = props
   const [visible, setVisible] = useState(initVisible)
-  const popout = ReactDOM.createPortal(<Popout visible={visible} onClickMask={() => setVisible(false)} >
+  const popout = ReactDOM.createPortal(<Popout position = {position} visible={visible} onClickMask={() => setVisible(false)} >
     {children}
   </Popout>, rootDiv)
   return {

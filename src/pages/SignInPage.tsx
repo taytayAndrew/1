@@ -8,6 +8,8 @@ import { ajax } from "../lib/ajax"
 import { useNavigate } from "react-router-dom"
 import { Input } from '../components/Input'
 import axios, { AxiosError } from "axios"
+import { Datepicker } from "../components/Datepicker"
+import { usePopout } from "../hooks/usePopout"
 
 export const SignInPage:React.FC = () =>{
     const {data , setData ,setError,error} = useSignInStore()
@@ -37,28 +39,26 @@ export const SignInPage:React.FC = () =>{
           //回到首页
         }
       }
-      
+    const {popout, hide ,show } = usePopout({children: <div>加载中</div>, position: 'center' })
     const onClickCode = async () => {
       console.log(data.email)
       const NewError = validate({email: data.email},[
         {key:'email' , type:'pattern' , regex:/^.+@.+$/, message:'邮箱地址格式 不正确'}
       ])
       if(hasError(NewError)){
-        setError(NewError)
-        console.log('有错')
-      }else{
-        console.log('没错')
-        const response = await axios.post('http://121.196.236.94:8080/api/v1/validation_codes',{
-           email:data.email
-           
-        }
-       )
-       console.log(response)
+        throw new Error('表单出错')
       }
+        show()
+        const response = await axios.post('http://121.196.236.94:8080/api/v1/validation_codes',{
+           email:data.email 
+        }).finally(() => hide())
+       return(response)
+      
     }
     
  return (
     <div> 
+      {popout}
         <Gradient>
             <Topnav title='登录' icon={<Icon name='back' />}/>
         </Gradient>

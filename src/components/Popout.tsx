@@ -5,10 +5,11 @@ type Props = {
   visible: boolean;
   onClickMask?: () => void;
   children?: ReactNode;
+  position?: 'bottom' | 'center'
 };
 
 export const Popout: React.FC<Props> = (props) => {
-  const { visible, onClickMask, children } = props;
+  const { visible, onClickMask, children,position='bottom' } = props;
   const [maskVisible, setMaskVisible] = useState(visible);
 
   const maskStyles = useSpring({
@@ -27,7 +28,7 @@ export const Popout: React.FC<Props> = (props) => {
       duration: 1000,
     },
   });
-  const menuStyles = useSpring({
+  const wrapperStyles = useSpring({
     opacity: visible ? 1 : 0,
     transform: visible ? "translateY(0%)" : "translateY(100%)",
   });
@@ -57,7 +58,7 @@ export const Popout: React.FC<Props> = (props) => {
         min-h-100px
         bg-white
         z="[calc(var(--z-popout))]"
-        style={menuStyles}
+        style={wrapperStyles}
         rounded-t-8px
         overflow-hidden
       >
