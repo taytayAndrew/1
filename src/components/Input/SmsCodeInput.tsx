@@ -65,7 +65,7 @@ export const SmsCodeInput :React.FC<Props> = (props) =>{
                 value={value} onChange={e => onChange?.(e.target.value)} />
 
                     {started?
-                    <button max-w="[calc(60%-8px)]" shrink-0 j-btn onClick = {onClick} color="grey">正在倒计时 还剩下{count}秒 </button>:
+                    <button max-w="[calc(60%-8px)]" shrink-0 j-btn onClick = {onClick} disabled text-gray>正在倒计时 还剩下{count}秒 </button>:
                     <button  max-w="[calc(60%-8px)]" shrink-0 j-btn onClick = {onClick} >发送验证码</button>
             
                     }
