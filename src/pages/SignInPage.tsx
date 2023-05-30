@@ -4,14 +4,17 @@ import { Icon } from "../components/Icon"
 import { Topnav } from "../components/Topnav"
 import { useSignInStore } from "../stores/useSignInStore"
 import { FormError, hasError, validate } from "../lib/validate"
-import { ajax } from "../lib/ajax"
+import { useAjax } from "../lib/ajax"
 import { useNavigate } from "react-router-dom"
 import { Input } from '../components/Input'
 import axios, { AxiosError } from "axios"
 import { Datepicker } from "../components/Datepicker"
 import { usePopout } from "../hooks/usePopout"
+import styled from "styled-components"
+import { useLoadingStore } from "../stores/useLoadingStore"
 
 export const SignInPage:React.FC = () =>{
+  
     const {data , setData ,setError,error} = useSignInStore()
     const nav = useNavigate()
     const onSubmitError = (err:AxiosError<{errors : FormError<typeof data>}>) =>{
@@ -29,7 +32,8 @@ export const SignInPage:React.FC = () =>{
         setError(Newerror)
         if(!hasError(Newerror)){
           //发送请求
-          const response = await ajax.post<{jwt : string}>('http://121.196.236.94:8080/api/v1/session',data).catch(onSubmitError)
+          const response = await post<{jwt : string}>('http://121.196.236.94:8080/api/v1/session',data)
+          .catch(onSubmitError)
           //获取jwt
           const jwt = response.data.jwt
           console.log('jwt',jwt)
@@ -39,26 +43,29 @@ export const SignInPage:React.FC = () =>{
           //回到首页
         }
       }
-    const {popout, hide ,show } = usePopout({children: <div>加载中</div>, position: 'center' })
+      const {post} = useAjax({showLoading: true});
+
+      //要让所有组件都可以使用到loading 就最好用全局状态管理器 也就是zustand
+    // const {setVisible} = useLoadingStore()//注意要写在普通函数外面 不然就是一个invalid hook call
     const onClickCode = async () => {
-      console.log(data.email)
+      
       const NewError = validate({email: data.email},[
         {key:'email' , type:'pattern' , regex:/^.+@.+$/, message:'邮箱地址格式 不正确'}
       ])
       if(hasError(NewError)){
         throw new Error('表单出错')
       }
-        show()
-        const response = await axios.post('http://121.196.236.94:8080/api/v1/validation_codes',{
+      // setVisible(true)
+        const response = await post('http://121.196.236.94:8080/api/v1/validation_codes',{
            email:data.email 
-        }).finally(() => hide())
+        })
+        // .finally(() => {setVisible(false)})
        return(response)
       
     }
     
  return (
     <div> 
-      {popout}
         <Gradient>
             <Topnav title='登录' icon={<Icon name='back' />}/>
         </Gradient>

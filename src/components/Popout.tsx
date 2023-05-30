@@ -30,7 +30,8 @@ export const Popout: React.FC<Props> = (props) => {
   });
   const wrapperStyles = useSpring({
     opacity: visible ? 1 : 0,
-    transform: visible ? "translateY(0%)" : "translateY(100%)",
+    
+    transform: position === 'bottom' ?(visible ?"translateY(0%)" : "translateY(100%)"):''  ,
   });
   const maskStyles2 = {
     ...maskStyles,
@@ -39,6 +40,7 @@ export const Popout: React.FC<Props> = (props) => {
 
   return (
     <div touch-none>
+      
       <animated.div
         fixed
         top-0
@@ -49,7 +51,7 @@ export const Popout: React.FC<Props> = (props) => {
         style={maskStyles2}
         onClick={() => onClickMask?.()}
       ></animated.div>
-
+      {position === 'bottom' ? (
       <animated.div
         fixed
         bottom-0
@@ -65,6 +67,20 @@ export const Popout: React.FC<Props> = (props) => {
         
         {children}
       </animated.div>
-    </div>
+   ) : (<animated.div
+       fixed
+       left="[50%]"
+       top="[50%]"
+       translate-x="-50%" translate-y="-50%"//让其居中
+     bg-white
+       z="[calc(var(--z-popout))]"
+       style={wrapperStyles}
+       rounded-8px
+       overflow-hidden
+  >
+    
+    {children}
+  </animated.div>)}
+       </div>
   );
 };
