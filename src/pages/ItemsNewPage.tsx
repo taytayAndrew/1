@@ -1,4 +1,4 @@
-import { ReactNode, useState } from "react";
+import { FormEventHandler, ReactNode, useState } from "react";
 import { Gradient } from "../components/Gradient";
 import { Icon } from "../components/Icon";
 import { Tabs } from "../components/Tab";
@@ -25,8 +25,12 @@ export const ItemsNewPage: React.FC = () => {
     <Tags kind="expenses" value={data.tag_ids} onChange = {(ids) => setData({tag_ids:ids})}/>
   },
   ];
+  const onSubmit :FormEventHandler<HTMLFormElement> = (e) => {
+    e.preventDefault()
+
+  }
     return (
-    <div className={s.wrapper} h-vhcheck flex flex-col>
+    <form className={s.wrapper} h-vhcheck flex flex-col onSubmit={onSubmit}>
       <Gradient className="grow-0 shrink-0">
         <Topnav title="记一笔" icon={<Icon name="back" />} />
       </Gradient>
@@ -45,6 +49,6 @@ export const ItemsNewPage: React.FC = () => {
       onChange={(happen_at) => setData({happen_at})} />} 
       value = {data.amount} onChange= {amount => setData({amount})}
       />
-    </ div>
+    </ form>
   );
 };
