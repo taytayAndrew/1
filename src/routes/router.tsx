@@ -1,4 +1,4 @@
-import { createBrowserRouter } from 'react-router-dom'
+import { Outlet, createBrowserRouter } from 'react-router-dom'
 import { Root } from '../components/Root'
 import { WelcomeLayout } from '../layouts/WelcomeLayout'
 import { Home } from '../pages/Home'
@@ -31,37 +31,49 @@ export const router = createBrowserRouter([
       { path: '4', element: <Welcome4 /> },
     ]
   },
-  { path: '/items', 
-  element: <ItemsPage /> ,
-  errorElement:<ItemPageError />,
-  loader: async () => {
-    const onError = (error: AxiosError) => {
-      if (error.response?.status === 401) { throw new Error('unauthorized') }
-      throw error
-    }
-    return preload('/api/v1/items?page=1', async (path) => {
-      const response = await axios.get<Resources<Item>>(path).catch(onError)
-      if (response.data.resources.length > 0) {
-        return response.data
-      } else {
-        throw new Error('empty_data')
-      }
-    })
-},},
-  { path: '/items/new',
-  element: <ItemsNewPage />, 
-  errorElement:<ErrorPage />,
+  
+  {path:'sign_in', element: <SignInPage/>},
+  {path:'/',
+   element:<Outlet />,
+  errorElement: <ErrorPage />,
   loader:async() => 
     preload('/api/v1/me', async(path) => {return  await axios.get<Resource<User>>(path)
     .then(r => r.data , e => {throw new Error('unauthorized')})
-    })
-  
-},
-  { path: '/tags/new', element: <TagsNewPage /> },
-  { path: '/tags/:id', element: <TagsEditPage /> },
-  {path:'sign_in', element: <SignInPage/>},
-  { path: "/statistic", element: <StatisticsPage />},
+    }),
+    children:
+    [{ path: '/items', 
+    element: <ItemsPage /> ,
+    errorElement:<ItemPageError />,
+    loader: async () => {
+      const onError = (error: AxiosError) => {
+        if (error.response?.status === 401) { throw new Error('unauthorized') }
+        throw error
+      }
+      return preload('/api/v1/items?page=1', async (path) => {
+        const response = await axios.get<Resources<Item>>(path).catch(onError)
+        if (response.data.resources.length > 0) {
+          return response.data
+        } else {
+          throw new Error('empty_data')
+        }
+      })
+  },},
+    { path: '/items/new',
+    element: <ItemsNewPage />, 
+    errorElement:<ErrorPage />,
+    loader:async() => 
+      preload('/api/v1/me', async(path) => {return  await axios.get<Resource<User>>(path)
+      .then(r => r.data , e => {throw new Error('unauthorized')})
+      })
+    
+  },
+    { path: '/tags/new', element: <TagsNewPage /> },
+    { path: '/tags/:id', element: <TagsEditPage /> },
+    { path: "/statistic", element: <StatisticsPage />},
   { path: "/export", element: <div>目前可能还没有</div>},
   { path: "/tags", element: <div>标签</div> },
-  { path: "/noty", element: <div>目前可能还没有</div> },
+  { path: "/noty", element: <div>目前可能还没有</div>} ]
+
+ },
+
 ])
