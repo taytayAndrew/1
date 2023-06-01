@@ -9,7 +9,7 @@ type Props = {
   ItemData: ReactNode
 };
 
-export const DateandAmount: React.FC<Props> = (props) => {
+export const Amount: React.FC<Props> = (props) => {
   const [date,setDate] = useState(new Date())
   const [output, _setOutput] = useState('0')
   // 拦截器
