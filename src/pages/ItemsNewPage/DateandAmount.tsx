@@ -1,12 +1,12 @@
 
-import { Icon } from "../../components/Icon";
 import { usePopout } from "../../hooks/usePopout";
 import { Datepicker } from "../../components/Datepicker";
-import { useState } from "react";
-import { time } from "../../lib/time";
+import { ReactNode, useState } from "react";
+import { ItemData } from "../ItemData";
 
 type Props = {
   className: string;
+  ItemData: ReactNode
 };
 
 export const DateandAmount: React.FC<Props> = (props) => {
@@ -45,6 +45,7 @@ export const DateandAmount: React.FC<Props> = (props) => {
   return (
     <>
       <div className={className}>
+        {props.ItemData}
         <div
           flex
           p-16px
@@ -54,12 +55,6 @@ export const DateandAmount: React.FC<Props> = (props) => {
           items-center
           color="#999"
         >
-          <span flex gap-x-8px items-center onClick={toggle}>
-            <Icon name="date" className="w-24px h-24px grow-0 shrink-0" />
-          </span>
-          <span grow-0 shrink-0 text-12px color='#999'>
-            {time(date).format()}
-          </span>
           <span grow-1 shrink-1 text-right color="#53A867">
             {output}
           </span>

@@ -8,6 +8,7 @@ import { Tags } from "./ItemsNewPage/Tags";
 import { useCreateItemStore } from '../stores/useCreateItemStore'
 import vhCheck from 'vh-check'
 import { DateandAmount } from "./ItemsNewPage/DateandAmount";
+import { ItemData } from "./ItemData";
 vhCheck()
 
 export const ItemsNewPage: React.FC = () => {
@@ -39,7 +40,7 @@ export const ItemsNewPage: React.FC = () => {
         classPrefix="itemsNewTabs"
       />
       <div text-28px>{JSON.stringify(data)}</div>
-      <DateandAmount className="grow-0 shrink-0" />
+      <DateandAmount className="grow-0 shrink-0" ItemData={<ItemData />} />
     </ div>
   );
 };
