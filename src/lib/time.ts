@@ -133,6 +133,7 @@ type Parts = {
     set ms(v) {
       this.parts = { ms: v }
     }
+    // FIXED: 时区获取 只能获取整数时区
     get IosString() {
       const timezone = Math.round(-this.#date.getTimezoneOffset() / 60)
       let absolute = Math.abs(timezone)

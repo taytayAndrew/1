@@ -7,7 +7,7 @@ import s from "./ItemsNewPage.module.scss";
 import { Tags } from "./ItemsNewPage/Tags";
 import { useCreateItemStore } from '../stores/useCreateItemStore'
 import vhCheck from 'vh-check'
-import { Amount } from "./ItemsNewPage/ItemAmount";
+import { ItemAmount } from "./ItemsNewPage/ItemAmount";
 import { ItemData } from "./ItemData";
 vhCheck()
 
@@ -40,9 +40,11 @@ export const ItemsNewPage: React.FC = () => {
         classPrefix="itemsNewTabs"
       />
       <div text-28px>{JSON.stringify(data)}</div>
-      <Amount className="grow-0 shrink-0" 
+      <ItemAmount className="grow-0 shrink-0" 
       ItemData={<ItemData value={data.happen_at}
-      onChange={(d) => setData({happen_at:d})} />} />
+      onChange={(happen_at) => setData({happen_at})} />} 
+      value = {data.amount} onChange= {amount => setData({amount})}
+      />
     </ div>
   );
 };

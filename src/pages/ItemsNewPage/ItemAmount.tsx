@@ -5,19 +5,23 @@ import { ReactNode, useState } from "react";
 import { ItemData } from "../ItemData";
 
 type Props = {
-  className: string;
+  className?: string;
   ItemData: ReactNode
+  value?: number
+  onChange?:(value:number) => void
 };
 
-export const Amount: React.FC<Props> = (props) => {
+export const ItemAmount: React.FC<Props> = (props) => {
+  const {value , onChange} = props
   const [date,setDate] = useState(new Date())
-  const [output, _setOutput] = useState('0')
+  const [output,_setOutput] = useState(() => {return (value?.toString() ?? '0')} )
   // 拦截器
   const setOutput = (str: string) => {
     const dotIndex = str.indexOf('.')
     if (dotIndex >= 0 && str.length - dotIndex > 3) { return }
     if (str.length > 16) { return }
     _setOutput(str)
+    onChange?.(parseFloat(str))
   }
   const { className } = props;
   const { toggle, popout, hide } = usePopout({
