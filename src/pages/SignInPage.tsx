@@ -5,7 +5,7 @@ import { Topnav } from "../components/Topnav"
 import { useSignInStore } from "../stores/useSignInStore"
 import { FormError, hasError, validate } from "../lib/validate"
 import { useAjax } from "../lib/ajax"
-import { useNavigate } from "react-router-dom"
+import { useNavigate, useSearchParams } from "react-router-dom"
 import { Input } from '../components/Input'
 import { AxiosError } from "axios"
 
@@ -13,6 +13,7 @@ export const SignInPage:React.FC = () =>{
   
     const {data , setData ,setError,error} = useSignInStore()
     const nav = useNavigate()
+    const [search] = useSearchParams()
     const onSubmitError = (err:AxiosError<{errors : FormError<typeof data>}>) =>{
         setError(err.response?.data?.errors ?? {})
         throw error
@@ -35,8 +36,9 @@ export const SignInPage:React.FC = () =>{
           console.log('jwt',jwt)
           localStorage.setItem('jwt',jwt)
           //jwt存入localstorage
-          nav('/items')
-          //回到首页
+          const from = search.get('from') || '/items'
+          nav(from)
+          //回到登陆前的页面
         }
       }
       const {post} = useAjax({showLoading: true});
