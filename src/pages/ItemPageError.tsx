@@ -7,7 +7,7 @@ export const ItemPageError :React.FC = () =>{
         return <Navigate to='/sign_in' />
     }
     else if(e.message === 'empty_data'){
-        return <Navigate to='/home' />
+        return <Navigate replace to='/home' />
     }else{
         return <div>出错了 </div>
     }
