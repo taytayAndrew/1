@@ -18,6 +18,7 @@ const create = (attrs?: Partial<Item>): Item => {
     kind: 'expenses',
     ...attrs
   }
+
 }
 
 const createList = (n: number, attrs?: Partial<Item>): Item[] => {
@@ -42,6 +43,6 @@ export const itemsMock: MockMethod = {
   method: 'get',
   statusCode: 200,
   response: ({ query }: ResponseParams): Resources<Item> =>
-    createResponse({ count: 30, perPage: 10, page: parseInt(query.page) })
+    createResponse({ count: 300, perPage: 10, page: parseInt(query.page) || 1 })
   ,
 }

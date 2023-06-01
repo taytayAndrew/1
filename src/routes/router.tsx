@@ -12,6 +12,10 @@ import { ItemsNewPage } from '../pages/ItemsNewPage'
 import { TagsNewPage } from '../pages/TagsNewPage'
 import { TagsEditPage } from '../pages/TagsEditPage'
 import { StatisticsPage } from '../pages/StatisticsPage'
+import axios, { AxiosError } from 'axios'
+import { ItemPageError } from '../pages/ItemPageError'
+import useSWR, { preload } from 'swr'
+
 
 export const router = createBrowserRouter([
   { path: '/', element: <Root />, },
@@ -26,7 +30,23 @@ export const router = createBrowserRouter([
       { path: '4', element: <Welcome4 /> },
     ]
   },
-  { path: '/items', element: <ItemsPage /> },
+  { path: '/items', 
+  element: <ItemsPage /> ,
+  errorElement:<ItemPageError />,
+  loader: async () => {
+    const onError = (error: AxiosError) => {
+      if (error.response?.status === 401) { throw new Error('unauthorized') }
+      throw error
+    }
+    return preload('/api/v1/items?page=1', async (path) => {
+      const response = await axios.get<Resources<Item>>(path).catch(onError)
+      if (response.data.resources.length > 0) {
+        return response.data
+      } else {
+        throw new Error('empty_data')
+      }
+    })
+},},
   { path: '/items/new', element: <ItemsNewPage /> },
   { path: '/tags/new', element: <TagsNewPage /> },
   { path: '/tags/:id', element: <TagsEditPage /> },

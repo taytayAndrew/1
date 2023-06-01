@@ -26,6 +26,7 @@ type Options = {
   handleError?: boolean
 }
 
+//如若使用拦截器来得到它的error.status就不能引用hooks
 export const useAjax = (options?:Options) => {
   const table: Record<string, undefined | (() => void)> = {
     403: () => {

@@ -35,7 +35,7 @@ export const SignInPage:React.FC = () =>{
           console.log('jwt',jwt)
           localStorage.setItem('jwt',jwt)
           //jwt存入localstorage
-          nav('/home')
+          nav('/items')
           //回到首页
         }
       }
@@ -60,6 +60,8 @@ export const SignInPage:React.FC = () =>{
       
     }
     
+  
+
  return (
     <div> 
         <Gradient>
