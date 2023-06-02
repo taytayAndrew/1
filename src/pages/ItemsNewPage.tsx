@@ -9,6 +9,8 @@ import { useCreateItemStore } from '../stores/useCreateItemStore'
 import vhCheck from 'vh-check'
 import { ItemAmount } from "./ItemsNewPage/ItemAmount";
 import { ItemData } from "./ItemData";
+import { hasError, validate } from "../lib/validate";
+import { useAjax } from "../lib/ajax";
 vhCheck()
 
 export const ItemsNewPage: React.FC = () => {
@@ -25,8 +27,24 @@ export const ItemsNewPage: React.FC = () => {
     <Tags kind="expenses" value={data.tag_ids} onChange = {(ids) => setData({tag_ids:ids})}/>
   },
   ];
-  const onSubmit :FormEventHandler<HTMLFormElement> = (e) => {
+  const {post} = useAjax({showLoading:true , handleError: true})
+  const onSubmit :FormEventHandler<HTMLFormElement> = async(e) => {
     e.preventDefault()
+    const error = validate(data,[
+      {key:'kind' , type:'required' , message:'请选择类型：收入或支出'},
+      {key:'tag_ids' , type:'required' , message:'请选择一个标签'},
+      {key:'happen_at' , type:'required' , message:'请选择一个时间'},
+      {key:'amount' , type:'required' , message:'请输入金额'},
+      {key:'amount' , type:'notEqual' ,value:0, message:'金额不能为0'},  
+    ])
+    setError(error)
+    if(hasError(error)){
+      const message = Object.values(error).flat().join('\n')  //Object.values可以返回一个包含对象自身的所有可枚举属性值的数组。
+      console.log(Object.values(error))
+      alert(message)
+    }else{
+      const response = await post<Resource<Item>>('/api/v1/items' , data)
+    }
 
   }
     return (
@@ -43,7 +61,6 @@ export const ItemsNewPage: React.FC = () => {
         }}
         classPrefix="itemsNewTabs"
       />
-      <div text-28px>{JSON.stringify(data)}</div>
       <ItemAmount className="grow-0 shrink-0" 
       ItemData={<ItemData value={data.happen_at}
       onChange={(happen_at) => setData({happen_at})} />} 

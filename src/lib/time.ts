@@ -23,6 +23,7 @@ type Parts = {
     /**
      * 格式化输出
      * @param pattern
+     * 目前只支持 yyyy MM dd HH mm ss fff 默认值是'yyyy-MM-dd'
      */
     format(pattern = 'yyyy-MM-dd') { //目前只支持 yyyy MM dd HH mm ss fff
       return pattern
