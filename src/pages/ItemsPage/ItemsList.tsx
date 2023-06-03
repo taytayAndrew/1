@@ -2,6 +2,7 @@ import React from "react";
 import useSWRInfinite from "swr/infinite";
 import { useAjax } from "../../lib/ajax";
 
+
 interface Props {}
   const getKey = (pageIndex: number ,prev:Resources<Item>) => {
   if(prev){
@@ -11,7 +12,9 @@ interface Props {}
     return `/api/v1/items?page=${pageIndex + 1}`; 
 };
 const {get} = useAjax()
+
 export const ItemsList: React.FC<Props> = () => {
+  const {get} = useAjax()//注意钩子要放在组件里面使用
   const { data, error, size, setSize } = useSWRInfinite(
     getKey,
     async (path) => (await get<Resources<Item>>(path)).data,

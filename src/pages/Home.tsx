@@ -1,17 +1,19 @@
 import useSWR from 'swr'
 import { Navigate, useNavigate } from 'react-router-dom'
 import p from '../assets/images/pig.svg'
-import {  useAjax } from '../lib/ajax'
 import { useTitle } from '../hooks/useTitle'
 import { Loading } from '../components/Loading'
 import { AddItemFloatButton } from '../components/AddItemFloatButton'
+import { useAjax } from '../lib/ajax'
 import { AxiosError } from 'axios'
 interface Props {
   title?: string
 }
 
+
 //不要使用默认header来设置 authorazation
 export const Home: React.FC<Props> = (props) => {
+  const {get} = useAjax({ showLoading: true, handleError: false })
   const nav = useNavigate()
   const onHttpError = (error: AxiosError) => {
     //返回状态码403就跳转
@@ -23,7 +25,6 @@ export const Home: React.FC<Props> = (props) => {
     }
     throw(error)
   }
-  const {get} = useAjax()
   useTitle(props.title)
   const { data: meData, error: meError } = useSWR('/api/v1/me', async path =>
   {
