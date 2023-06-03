@@ -11,7 +11,7 @@ interface Props {}
     }
     return `/api/v1/items?page=${pageIndex + 1}`; 
 };
-const {get} = useAjax()
+
 
 export const ItemsList: React.FC<Props> = () => {
   const {get} = useAjax()//注意钩子要放在组件里面使用
