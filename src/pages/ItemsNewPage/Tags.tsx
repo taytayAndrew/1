@@ -1,43 +1,79 @@
 import { Link } from "react-router-dom";
 import { Icon } from "../../components/Icon";
-import { useTagsStore } from "../../stores/useTagsStore";
 import { useAjax } from "../../lib/ajax";
-import useSwr from 'swr'
+import useSWRInfinite from "swr/infinite";
+import styled from "styled-components";
 
 type Props= {
   kind: Item['kind']
   value?: Item['tag_ids']
   onChange?:(ids:Item['tag_ids']) => void
 }
-export const Tags: React.FC<Props> = (props) => {
-  const {kind,value,onChange} =  props
-  const {list : tags, setList}= useTagsStore()
-  const {get} = useAjax({showLoading: true , handleError:true})
-  useSwr('/api/v1/tags' , async (path) => {
-    const response = await get<Resources<Tag>>(path)
-    setList(response.data.resources)
-  })
-  return (
-    <div>
-      <ol grid grid-cols="[repeat(auto-fit,48px)]" justify-center gap-x-32px gap-y-16px py-16px px-16px>
-        <li>
-          <Link to={`/tags/new?kind=${kind}`}>
-                    <span  block w-48px h-48px rounded= "24px" bg='#EFEFEF' flex justify-center items-center text-24px><Icon name='add'/></span>
-          </Link>
-        </li>
-        {tags.map((tag,index) =>
-        <li key={index} w-48px  flex flex-col justify-center items-center onClick = {() => onChange?.([tag.id])}>
-          {value?.includes(tag.id)?
-            <span block w-48px h-48px rounded= "24px" bg='#EFEFEF' flex justify-center items-center text-24px b-1 b="lightblue">{tag.sign}</span>
-          :
-            <span block w-48px h-48px rounded= "24px" bg='#EFEFEF' flex justify-center items-center text-24px b-1 b-transparent>{tag.sign}</span>
-          }
-          
-          <span text-12px>{tag.name}</span>
-        </li>)
 
-        }
-      </ol>
-    </div>
-  );
+const getKey = (pageIndex: number ,prev:Resources<Item>) => {
+  if(prev){
+      const sendCount = (prev.pager.page - 1)*prev.pager.per_page + prev.resources.length
+      const count = prev.pager.count
+
+  if(count <= sendCount){return null}
+    }
+    return `/api/v1/tags?page=${pageIndex + 1}`; 
 };
+const Div = styled.div`
+  padding: 16px;
+  text-align: center;
+`
+
+export const Tags: React.FC<Props> = (props) => {
+  const {kind} =  props
+  const {get} = useAjax({showLoading: true , handleError:true})
+  const { data, error, size, setSize } = useSWRInfinite(
+    getKey,
+    async (path) => (await get<Resources<Tag>>(path)).data,
+    { revalidateFirstPage : false }//SWR会自动自动更新缓存 ，会多一次请求的原因是 他需要你在请求下一页时 你的第一页是否就就还是原先的数据 如果不是 那就要把最新的数据插入到前面 要在每一次请求第一页的时候都去请求第一页 以达到更新缓存的效果 如果第一页数据变化，会继续请求下一页
+  );
+  const isLoadingInitialData = !error && !data
+  const isLoadingMore = data?.[size - 1] === undefined && !error
+  const isLoading  = isLoadingInitialData || isLoadingMore
+  
+  if (!data) {return <div>空</div>}
+    const loadMore = () =>{
+    setSize(size + 1)}
+    const last = data[data.length - 1]
+    const {page ,per_page, count } = last.pager
+    const hasMore = (page - 1)*per_page + last.resources.length < count
+      return(
+      <div>
+        <ol grid grid-cols="[repeat(auto-fit,48px)]" justify-center gap-x-32px gap-y-16px py-16px px-16px>
+          <li>
+            <Link to={`/tags/new?kind=${kind}`}>
+                      <span  block w-48px h-48px rounded= "24px" bg='#EFEFEF' flex justify-center items-center text-24px><Icon name='add'/></span>
+            </Link>
+          </li>
+
+          {
+            data.map(({resources}, index) => {
+              return resources.map((tag, index) =>{
+                <li key={index} w-48px  flex flex-col justify-center items-center onClick = {() => props.onChange?.([tag.id])}>
+                {props.value?.includes(tag.id)?
+                  <span block w-48px h-48px rounded= "24px" bg='#EFEFEF' flex justify-center items-center text-24px b-1 b="lightblue">{tag.sign}</span>
+                :
+                  <span block w-48px h-48px rounded= "24px" bg='#EFEFEF' flex justify-center items-center text-24px b-1 b-transparent>{tag.sign}</span>
+                }
+                
+                <span text-12px text="#666">{tag.name}</span>              </li>
+                
+              })
+            })
+          }
+
+</ol>
+        {error && <Div>数据加载失败，请刷新页面</Div>}
+        {!hasMore
+          ? <Div>没有更多数据了</Div>
+          : isLoading
+            ? <Div>数据加载中...</Div>
+            : <Div><button j-btn onClick={loadMore}>加载更多</button></Div>}
+      </div>
+    
+)}
