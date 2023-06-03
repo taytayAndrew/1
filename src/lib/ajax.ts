@@ -38,9 +38,6 @@ export const useAjax = (options?:Options) => {
     401: () => {
       window.alert('没有权限')
     },
-    unknown: () => {
-      window.alert('未知错误')
-    }
   }
   const showLoading = options?.showLoading || false//undefined null 0 false ..都会取后面的值
   const handleError = options?.handleError ?? true//只有undefined null 会取后面的值
@@ -50,7 +47,7 @@ export const useAjax = (options?:Options) => {
     if (error.response) {
       if (handleError) {
         const { status } = error.response
-        const fn = table[status] || table.unknown
+        const fn = table[status] 
         fn?.()
       }
     }

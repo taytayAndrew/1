@@ -10,15 +10,7 @@ type Props= {
   onChange?:(ids:Item['tag_ids']) => void
 }
 
-const getKey = (pageIndex: number ,prev:Resources<Item>) => {
-  if(prev){
-      const sendCount = (prev.pager.page - 1)*prev.pager.per_page + prev.resources.length
-      const count = prev.pager.count
 
-  if(count <= sendCount){return null}
-    }
-    return `/api/v1/tags?page=${pageIndex + 1}&kind=${kind}`; 
-};
 const Div = styled.div`
   padding: 16px;
   text-align: center;
