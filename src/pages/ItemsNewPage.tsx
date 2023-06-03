@@ -14,7 +14,7 @@ import { useAjax } from "../lib/ajax";
 vhCheck()
 
 export const ItemsNewPage: React.FC = () => {
-  const {data , error ,setData, setError} = useCreateItemStore()
+  const {data , setData, setError} = useCreateItemStore()
 
   const tabItems: {
     key: "income" | "expenses";
