@@ -1,11 +1,13 @@
 import type { FormEventHandler } from 'react'
-import { useEffect } from 'react'
-import { Navigate, useNavigate, useParams, useSearchParams } from 'react-router-dom'
+import { useParams, useSearchParams } from 'react-router-dom'
 import { Input } from '../../components/Input'
 import { FormError, hasError, validate } from '../../lib/validate'
 import { useCreateTagStore } from '../../stores/useCreateTagStore'
 import { useAjax } from '../../lib/ajax'
 import { AxiosError } from 'axios'
+import type { TouchEvent } from 'react'
+import { useEffect, useRef } from 'react'
+import { Link, useNavigate } from 'react-router-dom'
 
 type Props = {
   type: 'create' | 'edit'
@@ -14,9 +16,10 @@ export const TagForm: React.FC<Props> = (props) => {
   const { type } = props
   const { data, error, setData, setError } = useCreateTagStore()
   const [searchParams] = useSearchParams()
+  const kind = searchParams.get('kind') ?? ''
   useEffect(() => {
     if (type !== 'create') { return }
-    const kind = searchParams.get('kind')
+    
     if (!kind) {
       throw new Error('kind 必填')
     }
@@ -60,7 +63,7 @@ export const TagForm: React.FC<Props> = (props) => {
       // 发起 AJAX 请求
     const response = await post<Resource<Tag>>('api/v1/tags',data).catch(onSubmitError)
     setData(response.data.resource)
-    nav('/items/new')
+    nav(`/items/new?kind=${encodeURIComponent(kind)}`)
     }
   }
   return (
