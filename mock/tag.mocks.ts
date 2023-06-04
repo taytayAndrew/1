@@ -9,7 +9,7 @@ const createId = () => {
 const create = (attrs?: Partial<Tag>): Tag => {
   return {
     id: createId(),
-    name: '标签',
+    name: faker.lorem.word(),
     sign: faker.internet.emoji(),
     user_id: 1,
     deleted_at: null,
@@ -37,28 +37,38 @@ const createResponse = ({ count = 10, perPage = 10, page = 1 }, attrs?: Partial<
   }
 }
 
-export const tagsMock: MockMethod[] = [
-  {
+export const tagsMock: MockMethod[] = [{
   url: '/api/v1/tags',
   method: 'get',
   statusCode: 200,
   response: ({ query }: ResponseParams): Resources<Tag> => {
-    return createResponse({ count: 91, perPage: 10, page: parseInt(query.page) || 1 })
+    return createResponse({ count: 54, perPage: 50, page: parseInt(query.page) || 1 })
   }
-  
-},
-{
+}, {
   url: '/api/v1/tags',
   method: 'post',
   statusCode: 200,
-  response: ({ query }: ResponseParams): any=> {
+  response: ({ query }: ResponseParams): Resource<Tag> => {
     return {
-      errors : {
-        name:['不合法']
-      }
+      resource: create()
     }
-  
-}
-}
-
-]
+  }
+}, {
+  url: '/api/v1/tags/:id',
+  method: 'patch',
+  statusCode: 200,
+  response: ({ query }: ResponseParams): Resource<Tag> => {
+    return {
+      resource: create()
+    }
+  }
+}, {
+  url: '/api/v1/tags/:id',
+  method: 'get',
+  statusCode: 200,
+  response: ({ query }: ResponseParams): Resource<Tag> => {
+    return {
+      resource: create()
+    }
+  }
+}]
