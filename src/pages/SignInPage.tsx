@@ -8,6 +8,7 @@ import { useAjax } from "../lib/ajax"
 import { useNavigate, useSearchParams } from "react-router-dom"
 import { Input } from '../components/Input'
 import { AxiosError } from "axios"
+import { BackIcon } from "../components/BackIcon"
 
 export const SignInPage:React.FC = () =>{
   
@@ -67,7 +68,7 @@ export const SignInPage:React.FC = () =>{
  return (
     <div> 
         <Gradient>
-            <Topnav title='登录' icon={<Icon name='back' />}/>
+            <Topnav title='登录' icon={<BackIcon />}/>
         </Gradient>
         <div text-center pt-40px pb-16px>
         <Icon name="logo" className='w-64px h-68px' />

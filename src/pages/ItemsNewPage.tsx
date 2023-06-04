@@ -11,6 +11,7 @@ import { ItemAmount } from "./ItemsNewPage/ItemAmount";
 import { ItemData } from "./ItemData";
 import { hasError, validate } from "../lib/validate";
 import { useAjax } from "../lib/ajax";
+import { BackIcon } from "../components/BackIcon";
 vhCheck()
 
 export const ItemsNewPage: React.FC = () => {
@@ -50,7 +51,7 @@ export const ItemsNewPage: React.FC = () => {
     return (
     <form className={s.wrapper} h-vhcheck flex flex-col onSubmit={onSubmit}>
       <Gradient className="grow-0 shrink-0">
-        <Topnav title="记一笔" icon={<Icon name="back" />} />
+        <Topnav title="记一笔" icon={<BackIcon />} />
       </Gradient>
       <Tabs
         className='text-center grow-1 shrink-1 overflow-hidden'

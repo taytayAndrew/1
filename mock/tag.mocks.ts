@@ -71,4 +71,9 @@ export const tagsMock: MockMethod[] = [{
       resource: create()
     }
   }
+}, {
+  url: '/api/v1/tags/:id',
+  method: 'delete',
+  statusCode: 200,
+  
 }]
