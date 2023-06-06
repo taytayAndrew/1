@@ -8,13 +8,14 @@ type Props = {
 export const LineChart:React.FC<Props>= (props) =>{
   const {className , items} = props
     const div = useRef<HTMLDivElement>(null)
+    const myChart = useRef<echarts.ECharts>()
     const xItem = items?.map(item => item.x)
     const yItem = items?.map(item => item.y)//将x,y分成两个数组
     const initialized = useRef(false)
     useEffect(() => {
     if(!div.current){return}
     if (initialized.current) { return }
-    const myChart = echarts.init(div.current)//表单初始化
+    myChart.current = echarts.init(div.current)//表单初始化
     initialized.current = true
     const option:echarts.EChartsOption  = {
       tooltip: {
@@ -67,8 +68,15 @@ export const LineChart:React.FC<Props>= (props) =>{
       ],
     };
 
-   myChart.setOption(option);
+   myChart.current.setOption(option);
   }, [])
+  useEffect(() => {
+    const option: echarts.EChartsOption = {
+      xAxis: { data: xItem, },
+      series: [{ data: yItem, }]
+    }
+    myChart.current?.setOption(option)
+  }, [items])
  return (
     <div ref={div} className={className}></div>
  )

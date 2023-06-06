@@ -92,6 +92,9 @@ type Parts = {
     get lastDayofMonth() {
       return new Time(new Date(this.year,this.month-1+1,0))
     }
+    get firstDayofMonth() {
+      return new Time(new Date(this.year,this.month-1,1))
+    }
     get year() {
       return this.parts.year
     }
