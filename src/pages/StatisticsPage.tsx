@@ -9,7 +9,7 @@ import { PieChart } from "../components/PieChart";
 import { RankChart } from "../components/RankChart";
 import { Input } from "../components/Input";
 import { useAjax } from "../lib/ajax";
-import { time } from "../lib/time";
+import { Time, time } from "../lib/time";
 import useSWR from 'swr'
 
 type Group = {happen_at:string ; amount: number;}[]
@@ -19,29 +19,30 @@ export const StatisticsPage: React.FC = () => {
   const [kind,setKind] = useState('expenses')
   const {get} = useAjax({showLoading: false , handleError:true})
 
-  const generateStartAndEndDeafultItems = () =>{
-    const defaultItems : {x:string ;y: number}[] = []
+  const generateStartEnd = () =>{
     if (timeRange === 'this month') {
-    const startTime = time().firstDayofMonth
-    const start = startTime.format(format)
-    const endTime = time().lastDayofMonth.add(1, 'day')
-    const end = endTime.format(format)
-    for(let i =0; i< startTime.dayCountOfMonth;i++){
-      const x = startTime.clone.add(i,'day').format(format)
-      defaultItems.push({x,y:0})
+    const start = time().firstDayofMonth
+    const end = time().lastDayofMonth.add(1, 'day')
+    return {start , end}
+    }else{
+      return {start:time() , end:time()}
     }
-    return {start,end,defaultItems}
-  } else {
-    return { start: '', end: '',defaultItems }
   }
-  }
-  const {start , end,defaultItems} = generateStartAndEndDeafultItems()
+    const generateDefaultItems = (time:Time) => {
+      return Array.from({length: time.dayCountOfMonth}).map((_,i) => {
+        const x = start.clone.add(i,'day').format(format)
+        return ({x,y:0})
+  
+      })}
+   
+  const {start , end} = generateStartEnd()
+  const defaultItems = generateDefaultItems(start)
   const {data: items} = useSWR(`/api/v1/items/summary?happened_after=${start}
   &happened_before=${end}&kind=${kind}
   &group_by=happen_at`, async(path)=>
     (await get<{groups: Group ; total: number  }>(path)).data.groups.map(({happen_at,amount}) => ({x:happen_at , y: amount}))
   )
- const noramlizedItems = defaultItems?.map((defaultItem) => {
+ const noramlizedItems = defaultItems?.map((defaultItem ) => {
    const item = items?.find((item) => item.x === defaultItem.x)
    console.log('item'+ item)
    if(item)
