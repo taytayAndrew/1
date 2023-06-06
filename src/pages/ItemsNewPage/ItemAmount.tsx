@@ -1,7 +1,7 @@
 
 import { usePopout } from "../../hooks/usePopout";
 import { Datepicker } from "../../components/Datepicker";
-import { ReactNode, useState } from "react";
+import { FormEvent, FormEventHandler, ReactNode, useState } from "react";
 import { ItemData } from "../ItemData";
 
 type Props = {
@@ -9,10 +9,12 @@ type Props = {
   ItemData: ReactNode
   value?: number
   onChange?:(value:number) => void
+  onSubmit?:() => void
+
 };
 
 export const ItemAmount: React.FC<Props> = (props) => {
-  const {value , onChange} = props
+  const {value , onChange ,onSubmit} = props
   const [date,setDate] = useState(new Date())
   const [output,_setOutput] = useState(() => {return (value?(value/100).toString() : '0')} )
   // 拦截器
@@ -107,10 +109,10 @@ export const ItemAmount: React.FC<Props> = (props) => {
           <button type='button'row-start-4 col-start-3 row-end-5 col-end-4 onClick={() => append('.')}>
             .
           </button>
-          <button row-start-1 col-start-4 row-end-3 col-end-5 onClick={clear}>
+          <button type='button' row-start-1 col-start-4 row-end-3 col-end-5 onClick={clear}>
             清空
           </button>
-          <button bg="#7aedfb" text-white row-start-3 col-start-4 row-end-5 type='submit' col-end-5 onClick={()=>{}}>
+          <button bg="#7aedfb" text-white row-start-3 col-start-4 row-end-5 type='submit' col-end-5 onClick={onSubmit}>
             提交
           </button>
           {/* <input value={x}  onChange={e => setX(e.target.value)}/> */}

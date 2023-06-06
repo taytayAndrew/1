@@ -22,7 +22,8 @@ export const ItemsPage:React.FC = () =>{
           <Icon name="menu" className="w-24px h-24px"
             onClick={() => { setVisible(!visible) }} />
         } />
-        <TimeRangePick selected={timeRange} onSelected ={setTimeRange}/>
+        <TimeRangePick selected={timeRange} onSelected ={setTimeRange} 
+       />
     </Gradient>
         <ItemsSummary />
         <ItemsList  opacity-50/>

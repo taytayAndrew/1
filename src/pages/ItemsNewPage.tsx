@@ -22,15 +22,16 @@ export const ItemsNewPage: React.FC = () => {
     text: string;
     element?: ReactNode;
   }[] = [
-    { key: "income", text: "收入", element:
-    <Tags kind="income" value={data.tag_ids} onChange = {(ids) => setData({tag_ids:ids})}/>  },
-    { key: "expenses", text: "支出", element: 
-    <Tags kind="expenses" value={data.tag_ids} onChange = {(ids) => setData({tag_ids:ids})}/>
-  },
-  ];
+    { key: 'expenses', text: '支出', element:
+    <Tags kind="expenses" value={data.tag_ids} onChange={(ids) => setData({ tag_ids: ids })} />
+},
+{
+  key: 'income', text: '收入', element:
+    <Tags kind="income" value={data.tag_ids} onChange={(ids) => setData({ tag_ids: ids })} />
+}
+] // React DOM diff 的优化
   const {post} = useAjax({showLoading:true , handleError: true})
-  const onSubmit :FormEventHandler<HTMLFormElement> = async(e) => {
-    e.preventDefault()
+  const onSubmit = async() => {
     const error = validate(data,[
       {key:'kind' , type:'required' , message:'请选择类型：收入或支出'},
       {key:'tag_ids' , type:'required' , message:'请选择一个标签'},
@@ -45,6 +46,8 @@ export const ItemsNewPage: React.FC = () => {
       alert(message)
     }else{
       const response = await post<Resource<Item>>('/api/v1/items' , data)
+      console.log(response.data.resource)
+
     }
 
   }
@@ -65,7 +68,7 @@ export const ItemsNewPage: React.FC = () => {
       <ItemAmount className="grow-0 shrink-0" 
       ItemData={<ItemData value={data.happen_at}
       onChange={(happen_at) => setData({happen_at})} />} 
-      value = {data.amount} onChange= {amount => setData({amount})}
+      value = {data.amount} onChange= {amount => setData({amount}) } onSubmit={onSubmit}
       />
     </ form>
   );

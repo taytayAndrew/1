@@ -63,7 +63,12 @@ export const StatisticsPage: React.FC = () => {
           title="统计图标"
           icon={<Icon name="back" className="w-24px h-24px" />}
         />
-        <TimeRangePick selected={timeRange} onSelected={setTimeRange} />
+        <TimeRangePick selected={timeRange} onSelected={setTimeRange}  timeRanges={[
+        {key: 'this month' , text: '本月'},
+        {key: 'last month' , text: '上月'},
+        {key: 'two months ago' , text: '两个月前'},
+        {key: 'three months ago' , text: '三个月前'},
+        ]}/>
       </Gradient>
       <div>
         <span>类型</span>

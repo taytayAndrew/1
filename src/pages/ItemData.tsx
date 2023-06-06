@@ -12,7 +12,7 @@ export const ItemData :React.FC<Props>= (props) =>{
     const {value ,onChange} = props
         const { toggle, popout, hide } = usePopout({
         children: <Datepicker 
-        onConfirm={d => { onChange?.(time(d).IosString); hide() }}
+        onConfirm={d => { onChange?.(time(d).format()); hide() }}
           onCancel={() => hide()} />
       })
  return (
