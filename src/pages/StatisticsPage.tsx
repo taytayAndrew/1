@@ -13,6 +13,7 @@ import { Time, time } from "../lib/time";
 import useSWR from 'swr'
 
 type Group = {happen_at:string ; amount: number;}[]
+type Group2 ={tag_id:number;tag:Tag;amount:number}[]
 export const StatisticsPage: React.FC = () => {
   const format = 'yyyy-MM-dd'
   const [timeRange, setTimeRange] = useState<TimeRanges>("this month");
@@ -40,7 +41,7 @@ export const StatisticsPage: React.FC = () => {
   const {data: items} = useSWR(`/api/v1/items/summary?happened_after=${start}
   &happened_before=${end}&kind=${kind}
   &group_by=happen_at`, async(path)=>
-    (await get<{groups: Group ; total: number  }>(path)).data.groups.map(({happen_at,amount}) => ({x:happen_at , y: amount}))
+    (await get<{groups: Group ; total: number  }>(path)).data.groups.map(({happen_at,amount}) => ({x:happen_at , y: (amount/100).toFixed(2)}))
   )
  const noramlizedItems = defaultItems?.map((defaultItem ) => {
    const item = items?.find((item) => item.x === defaultItem.x)
@@ -52,12 +53,11 @@ export const StatisticsPage: React.FC = () => {
     return defaultItem
    }
   })
-  const items2 = [
-    { tag: '吃吃吃', amount: 10000 },
-    { tag: '看电影', amount: 20000 },
-    { tag: '充值游戏', amount: 64800 },
-    { tag: '出去玩', amount: 100000 },
-  ].map(item => ({ x: item.tag, y: item.amount / 100 }))
+  const {data: items2} = useSWR(`/api/v1/items/summary?happened_after=${start}
+  &happened_before=${end}&kind=${kind}
+  &group_by=tag_id`, async(path)=>
+    (await get<{groups: Group2 ; total: number  }>(path)).data.groups.map(({tag_id,tag,amount}) => ({name:tag.name , value: (amount/100).toFixed(2),sign : tag.sign}))
+  )
   const items3 = [
     { tag: { name: '吃吃吃', sign: '😨' }, amount: 10000 },
     { tag: { name: '看电影', sign: '🥱' }, amount: 20000 },
