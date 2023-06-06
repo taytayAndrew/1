@@ -14,28 +14,43 @@ import useSWR from 'swr'
 
 type Group = {happen_at:string ; amount: number;}[]
 export const StatisticsPage: React.FC = () => {
+  const format = 'yyyy-MM-dd'
   const [timeRange, setTimeRange] = useState<TimeRanges>("this month");
   const [kind,setKind] = useState('expenses')
   const {get} = useAjax({showLoading: false , handleError:true})
 
-  const generateStartAndEnd = () =>{
+  const generateStartAndEndDeafultItems = () =>{
+    const defaultItems : {x:string ;y: number}[] = []
     if (timeRange === 'this month') {
-    const start = time().firstDayofMonth.format('yyyy-MM-dd')
-    const end = time().lastDayofMonth.add(1, 'day').format('yyyy-MM-dd')
-    return { start, end }
+    const startTime = time().firstDayofMonth
+    const start = startTime.format(format)
+    const endTime = time().lastDayofMonth.add(1, 'day')
+    const end = endTime.format(format)
+    for(let i =0; i< startTime.dayCountOfMonth;i++){
+      const x = startTime.clone.add(i,'day').format(format)
+      defaultItems.push({x,y:0})
+    }
+    return {start,end,defaultItems}
   } else {
-    return { start: '', end: '' }
+    return { start: '', end: '',defaultItems }
   }
   }
-  const {start , end} = generateStartAndEnd()
+  const {start , end,defaultItems} = generateStartAndEndDeafultItems()
   const {data: items} = useSWR(`/api/v1/items/summary?happened_after=${start}
   &happened_before=${end}&kind=${kind}
   &group_by=happen_at`, async(path)=>
     (await get<{groups: Group ; total: number  }>(path)).data.groups.map(({happen_at,amount}) => ({x:happen_at , y: amount}))
   )
-  useEffect(() => {
-    console.log(items)
-  }, [items])
+ const noramlizedItems = defaultItems?.map((defaultItem) => {
+   const item = items?.find((item) => item.x === defaultItem.x)
+   console.log('item'+ item)
+   if(item)
+   {
+    return {x: defaultItem.x ,y: item.y}
+   }else{
+    return defaultItem
+   }
+  })
   const items2 = [
     { tag: '吃吃吃', amount: 10000 },
     { tag: '看电影', amount: 20000 },
@@ -71,7 +86,7 @@ export const StatisticsPage: React.FC = () => {
           
         </div>
       </div>
-      <LineChart className="h-120px m-t-16px" items={items}/>
+      <LineChart className="h-120px m-t-16px" items={noramlizedItems}/>
       <PieChart  className="h-260px" items={items2} />
       <RankChart  className="m-t-8px" items={items3} />
     </div>

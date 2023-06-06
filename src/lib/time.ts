@@ -89,6 +89,12 @@ type Parts = {
         this.#date[methodName](value)
       })
     }
+    get dayCountOfMonth () {
+      return this.lastDayofMonth.day
+    }
+    get clone() {
+      return new Time(this.#date)
+    }
     get lastDayofMonth() {
       return new Time(new Date(this.year,this.month-1+1,0))
     }
