@@ -11,7 +11,12 @@ export type TimeRanges =
 
 const defaultTimeRange :{key: TimeRanges ,text:string}[]  = [
     {key: 'this month' , text: '本月'},
-    {key: 'last month' , text: '上月'}
+    {key: 'last month' , text: '上月'},
+    {key:'this year' , text:'今年'},
+    {key:'two months ago' , text:'两个月前'},
+    {key:'three months ago' , text:'三个月前'},
+    {key:'custom' , text:'自定义'},
+    
 ]
 type Props =  {
     selected: TimeRanges ,

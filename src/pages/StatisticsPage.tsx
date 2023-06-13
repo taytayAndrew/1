@@ -11,6 +11,7 @@ import { Input } from "../components/Input";
 import { useAjax } from "../lib/ajax";
 import { Time, time } from "../lib/time";
 import useSWR from 'swr'
+import { timeRangeToStartAndEnd } from "../lib/timeRangeToStartAndEnd";
 
 type Group = {happen_at:string ; amount: number;}[]
 type Group2 ={tag_id:number;tag:Tag;amount:number}[]
@@ -32,21 +33,8 @@ export const StatisticsPage: React.FC = () => {
   const [timeRange, setTimeRange] = useState<TimeRanges>("this month");
   const [kind,setKind] = useState<Item['kind']>('expenses')
   const {get} = useAjax({showLoading: false , handleError:true})
-  const timeRangeMap:{[k in TimeRanges] : number} = {
-   "custom":0,
-   "this month": 0,
-   "last month":-1,
-   "two months ago":-2,
-   "three months ago":-3,
-   "this year" :0
-  }
-  const generateStartEnd = () =>{
-   
-    const selected:Time = time().add(timeRangeMap[timeRange] ,'month')
-    const start = selected.firstDayofMonth
-    const end = start.lastDayofMonth.add(1,'day')
-    return {start , end}
-  }
+ 
+ 
     const generateDefaultItems = (time:Time) => {
       return Array.from({length: time.dayCountOfMonth}).map((_,i) => {
         const x = start.clone.add(i,'day').format(format)
@@ -54,7 +42,7 @@ export const StatisticsPage: React.FC = () => {
   
       })}
    
-  const {start , end} = generateStartEnd()
+  const {start , end} = timeRangeToStartAndEnd(timeRange)
   const defaultItems = generateDefaultItems(start)
   const {data: items} = useSWR(getKey({start,end,kind,group_by:'happen_at'}), async(path)=>
     (await get<{groups: Group ; total: number  }>(path)).data.groups.map(({happen_at,amount}) => ({x:happen_at , y: (amount/100).toFixed(2)}))

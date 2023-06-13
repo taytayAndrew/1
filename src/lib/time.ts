@@ -89,6 +89,10 @@ type Parts = {
         this.#date[methodName](value)
       })
     }
+    set(parts:Partial<Parts>){
+      this.parts = parts
+      return this
+    }
     get dayCountOfMonth () {
       return this.lastDayofMonth.day
     }

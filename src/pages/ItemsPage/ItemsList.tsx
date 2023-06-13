@@ -1,19 +1,26 @@
 import React from "react";
 import useSWRInfinite from "swr/infinite";
 import { useAjax } from "../../lib/ajax";
+import { Time } from "../../lib/time";
 
 
-interface Props {}
+interface Props {
+  start:Time
+  end:Time
+}
+  
+
+
+export const ItemsList: React.FC<Props> = (props) => {
+  const { start, end } = props
   const getKey = (pageIndex: number ,prev:Resources<Item>) => {
-  if(prev){
-      const sendCount = (prev.pager.page - 1)*prev.pager.per_page + prev.resources.length
-  if(prev.pager.count <= sendCount){return null}
-    }
-    return `/api/v1/items?page=${pageIndex + 1}`; 
-};
 
-
-export const ItemsList: React.FC<Props> = () => {
+    if(prev){
+        const sendCount = (prev.pager.page - 1)*prev.pager.per_page + prev.resources.length
+    if(prev.pager.count <= sendCount){return null}
+      }
+      return `/api/v1/items?page=${pageIndex + 1}&happened_After=${start.format('yyyy_MM_dd')}&happened_before=${end.format('yyyy_MM_dd')}`; 
+  };
   const {get} = useAjax()//注意钩子要放在组件里面使用
   const { data, error, size, setSize } = useSWRInfinite(
     getKey,
