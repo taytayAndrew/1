@@ -1,9 +1,13 @@
 import React from "react";
 import { Tabs } from "./Tab";
-export type TimeRanges = 'this month' 
+export type TimeRanges = 
+'this month' 
 | 'last month' 
 |'two months ago'
 |'three months ago'
+|'custom'
+|'this year'
+
 
 const defaultTimeRange :{key: TimeRanges ,text:string}[]  = [
     {key: 'this month' , text: '本月'},

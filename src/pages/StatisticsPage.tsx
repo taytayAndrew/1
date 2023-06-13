@@ -14,20 +14,38 @@ import useSWR from 'swr'
 
 type Group = {happen_at:string ; amount: number;}[]
 type Group2 ={tag_id:number;tag:Tag;amount:number}[]
+const format = 'yyyy-MM-dd'
+type GetKeyParams = {
+  start:Time
+  end:Time
+  kind:Tag['kind']
+  group_by:'happen_at' | 'tag_id'
+}
+const getKey = (props:GetKeyParams) => {
+  const {start, end, kind,group_by} = props
+  return`/api/v1/items/summary?happened_after=${start.format(format)}
+  &happened_before=${end.format(format)}&kind=${kind}
+  &group_by=${group_by}`
+}
 export const StatisticsPage: React.FC = () => {
   const format = 'yyyy-MM-dd'
   const [timeRange, setTimeRange] = useState<TimeRanges>("this month");
-  const [kind,setKind] = useState('expenses')
+  const [kind,setKind] = useState<Item['kind']>('expenses')
   const {get} = useAjax({showLoading: false , handleError:true})
-
+  const timeRangeMap:{[k in TimeRanges] : number} = {
+   "custom":0,
+   "this month": 0,
+   "last month":-1,
+   "two months ago":-2,
+   "three months ago":-3,
+   "this year" :0
+  }
   const generateStartEnd = () =>{
-    if (timeRange === 'this month') {
-    const start = time().firstDayofMonth
-    const end = time().lastDayofMonth.add(1, 'day')
+   
+    const selected:Time = time().add(timeRangeMap[timeRange] ,'month')
+    const start = selected.firstDayofMonth
+    const end = start.lastDayofMonth.add(1,'day')
     return {start , end}
-    }else{
-      return {start:time() , end:time()}
-    }
   }
     const generateDefaultItems = (time:Time) => {
       return Array.from({length: time.dayCountOfMonth}).map((_,i) => {
@@ -38,9 +56,7 @@ export const StatisticsPage: React.FC = () => {
    
   const {start , end} = generateStartEnd()
   const defaultItems = generateDefaultItems(start)
-  const {data: items} = useSWR(`/api/v1/items/summary?happened_after=${start}
-  &happened_before=${end}&kind=${kind}
-  &group_by=happen_at`, async(path)=>
+  const {data: items} = useSWR(getKey({start,end,kind,group_by:'happen_at'}), async(path)=>
     (await get<{groups: Group ; total: number  }>(path)).data.groups.map(({happen_at,amount}) => ({x:happen_at , y: (amount/100).toFixed(2)}))
   )
  const noramlizedItems = defaultItems?.map((defaultItem ) => {
@@ -53,9 +69,7 @@ export const StatisticsPage: React.FC = () => {
     return defaultItem
    }
   })
-  const {data: items2} = useSWR(`/api/v1/items/summary?happened_after=${start}
-  &happened_before=${end}&kind=${kind}
-  &group_by=tag_id`, async(path)=>
+  const {data: items2} = useSWR(getKey({start,end,kind,group_by:'tag_id'}), async(path)=>
     (await get<{groups: Group2 ; total: number  }>(path)).data.groups.map(({tag_id,tag,amount}) => ({name:tag.name , value: (amount/100).toFixed(2),sign : tag.sign}))
   )
 
