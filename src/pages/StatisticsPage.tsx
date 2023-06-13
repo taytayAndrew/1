@@ -58,11 +58,7 @@ export const StatisticsPage: React.FC = () => {
   &group_by=tag_id`, async(path)=>
     (await get<{groups: Group2 ; total: number  }>(path)).data.groups.map(({tag_id,tag,amount}) => ({name:tag.name , value: (amount/100).toFixed(2),sign : tag.sign}))
   )
-  const items3 = [
-    { tag: { name: '吃吃吃', sign: '😨' }, amount: 10000 },
-    { tag: { name: '看电影', sign: '🥱' }, amount: 20000 },
-    { tag: { name: '充值游戏', sign: '😶‍🌫️' }, amount: 64800 }
-  ].map(item => ({name: item.tag.name,value:item.amount,sign:item.tag.sign}))
+
   return (
     <div>
       <Gradient>
@@ -89,7 +85,7 @@ export const StatisticsPage: React.FC = () => {
       </div>
       <LineChart className="h-120px m-t-16px" items={noramlizedItems}/>
       <PieChart  className="h-260px" items={items2} />
-      <RankChart  className="m-t-8px" items={items3} />
+      <RankChart  className="m-t-8px" items={items2} />
     </div>
   );
 };
