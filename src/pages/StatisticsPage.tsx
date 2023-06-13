@@ -30,7 +30,11 @@ const getKey = (props:GetKeyParams) => {
 }
 export const StatisticsPage: React.FC = () => {
   const format = 'yyyy-MM-dd'
-  const [timeRange, setTimeRange] = useState<TimeRanges>("this month");
+  const [timeRange, setTimeRange] = useState<TimeRanges>({
+    name: 'this month',
+    start: time().firstDayofMonth ,
+    end: time().lastDayofMonth.add(1, 'day')
+  });
   const [kind,setKind] = useState<Item['kind']>('expenses')
   const {get} = useAjax({showLoading: false , handleError:true})
  
@@ -69,10 +73,22 @@ export const StatisticsPage: React.FC = () => {
           icon={<Icon name="back" className="w-24px h-24px" />}
         />
         <TimeRangePick selected={timeRange} onSelected={setTimeRange}  timeRanges={[
-        {key: 'this month' , text: '本月'},
-        {key: 'last month' , text: '上月'},
-        {key: 'two months ago' , text: '两个月前'},
-        {key: 'three months ago' , text: '三个月前'},
+       {
+        text: '本月',
+        key: { name: 'this month', start: time().firstDayofMonth, end: time().lastDayofMonth.add(1, 'day') },
+      },
+      {
+        text: '上月',
+        key: { name: 'last month', start: time().add(-1, 'month').firstDayofMonth, end: time().add(-1, 'month').lastDayofMonth.add(1, 'day') },
+      },
+      {
+        text: '两个月前',
+        key: { name: 'two months ago', start: time().add(-2, 'month').firstDayofMonth, end: time().add(-2, 'month').lastDayofMonth.add(1, 'day') },
+      },
+      {
+        text: '三个月前',
+        key: { name: 'three months ago', start: time().add(-3, 'month').firstDayofMonth, end: time().add(-3, 'month').lastDayofMonth.add(1, 'day') },
+      },
         ]}/>
       </Gradient>
       <div>

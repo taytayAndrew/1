@@ -13,6 +13,7 @@ export const Popout: React.FC<Props> = (props) => {
   const [maskVisible, setMaskVisible] = useState(visible);
 
   const maskStyles = useSpring({
+    visibility: maskVisible ? 'visible' : 'hidden' as 'visible' | 'hidden',
     opacity: visible ? 1 : 0,
     onStart: ({ value }) => {
       if (value.opacity < 0.1) {
@@ -29,14 +30,11 @@ export const Popout: React.FC<Props> = (props) => {
     },
   });
   const wrapperStyles = useSpring({
+    visibility: visible ? 'visible' : 'hidden' as 'visible' | 'hidden',
     opacity: visible ? 1 : 0,
     
     transform: position === 'bottom' ?(visible ?"translateY(0%)" : "translateY(100%)"):''  ,
   });
-  const maskStyles2 = {
-    ...maskStyles,
-    visibility: (maskVisible ? "visible" : "hidden") as "visible" | "hidden",
-  }; // workaround
 
   return (
     <div touch-none>
@@ -48,7 +46,7 @@ export const Popout: React.FC<Props> = (props) => {
         w-full
         className="bg-black:75"
         z="[calc(var(--z-popout)-1)]"
-        style={maskStyles2}
+        style={maskStyles}
         onClick={() => onClickMask?.()}
       ></animated.div>
       {position === 'bottom' ? (
