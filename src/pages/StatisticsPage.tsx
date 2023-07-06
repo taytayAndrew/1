@@ -19,7 +19,7 @@ const format = 'yyyy-MM-dd'
 type GetKeyParams = {
   start:Time
   end:Time
-  kind:Tag['kind']
+  kind:Item['kind']
   group_by:'happen_at' | 'tag_id'
 }
 const getKey = (props:GetKeyParams) => {

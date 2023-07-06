@@ -2,14 +2,15 @@ import { ReactNode, useState } from "react";
 import { animated, useSpring } from "@react-spring/web";
 
 type Props = {
-  visible: boolean;
-  onClickMask?: () => void;
-  children?: ReactNode;
+  visible: boolean
+  onClickMask?: () => void
+  children?: ReactNode
   position?: 'bottom' | 'center'
+  zIndex?:string
 };
 
 export const Popout: React.FC<Props> = (props) => {
-  const { visible, onClickMask, children,position='bottom' } = props;
+  const { visible, onClickMask, children,position='bottom',zIndex='var(--z-popout)'} = props;
   const [maskVisible, setMaskVisible] = useState(visible);
 
   const maskStyles = useSpring({
@@ -32,10 +33,12 @@ export const Popout: React.FC<Props> = (props) => {
   const wrapperStyles = useSpring({
     visibility: visible ? 'visible' : 'hidden' as 'visible' | 'hidden',
     opacity: visible ? 1 : 0,
-    
+    zIndex,
     transform: position === 'bottom' ?(visible ?"translateY(0%)" : "translateY(100%)"):''  ,
   });
 
+
+  
   return (
     <div touch-none>
       
@@ -45,11 +48,11 @@ export const Popout: React.FC<Props> = (props) => {
         h-full
         w-full
         className="bg-black:75"
-        z="[calc(var(--z-popout)-1)]"
-        style={maskStyles}
         onClick={() => onClickMask?.()}
-      ></animated.div>
-      {position === 'bottom' ? (
+        style={{...maskStyles, zIndex:`calc(${zIndex} - 1)`}} />
+       
+      {position === 'bottom' 
+      ? (
       <animated.div
         fixed
         bottom-0
@@ -57,8 +60,7 @@ export const Popout: React.FC<Props> = (props) => {
         w-full
         min-h-100px
         bg-white
-        z="[calc(var(--z-popout))]"
-        style={wrapperStyles}
+        style={{...wrapperStyles ,zIndex}}
         rounded-t-8px
         overflow-hidden
       >
@@ -71,8 +73,7 @@ export const Popout: React.FC<Props> = (props) => {
        top="[50%]"
        translate-x="-50%" translate-y="-50%"//让其居中
      bg-white
-       z="[calc(var(--z-popout))]"
-       style={wrapperStyles}
+       style={{...maskStyles, zIndex}}
        rounded-8px
        overflow-hidden
   >

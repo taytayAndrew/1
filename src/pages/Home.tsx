@@ -13,6 +13,7 @@ interface Props {
 
 //不要使用默认header来设置 authorazation
 export const Home: React.FC<Props> = (props) => {
+
   const {get} = useAjax({ showLoading: true, handleError: false })
   const nav = useNavigate()
   const onHttpError = (error: AxiosError) => {
@@ -21,7 +22,6 @@ export const Home: React.FC<Props> = (props) => {
       if(error.response?.status === 401) {//根据请求给的状态码跳转页面
       nav('/sign_in')
     }
-    
     }
     throw(error)
   }
