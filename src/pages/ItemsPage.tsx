@@ -26,6 +26,8 @@ export const ItemsPage:React.FC = () =>{
       }
       if(t.end.timestamp-t.start.timestamp > Time.DAY*365 ){
         setOutofRange(true)
+      }else{
+        setOutofRange(false)
       }
       _setTimeRange(t)
 
