@@ -19,7 +19,9 @@ export const ItemsList: React.FC<Props> = (props) => {
         const sendCount = (prev.pager.page - 1)*prev.pager.per_page + prev.resources.length
     if(prev.pager.count <= sendCount){return null}
       }
-      return `/api/v1/items?page=${pageIndex + 1}&happened_After=${start.format('yyyy_MM_dd')}&happened_before=${end.format('yyyy_MM_dd')}`; 
+      return `/api/v1/items?page=${pageIndex + 1}&`
+      +`happened_After=${start.removeTime().IosString}&`
+      +`happened_before=${end.removeTime().IosString}`; 
   };
   const {get} = useAjax()//注意钩子要放在组件里面使用
   const { data, error, size, setSize } = useSWRInfinite(

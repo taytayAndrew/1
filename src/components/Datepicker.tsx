@@ -7,12 +7,14 @@ type Props = {
   onCancel?: () => void
   onConfirm?: (value:Date) => void
 }
+
+const getNow = () => time().set({hours: 0 ,minutes: 0, seconds: 0, ms:0})
 export const Datepicker:React.FC<Props> = (props) =>{
   const {start , end ,value, onCancel,onConfirm} = props
-  const startTime = start? time(start):time().add(-10,'years')
-  const endTime = start? time(end):time().add(10,'years')
+  const startTime = start? time(start):getNow().add(-10,'years')
+  const endTime = start? time(end):getNow().add(10,'years')
   const [, update] = useState({})
-  const valueTime = useRef(value ? time(value) : time())
+  const valueTime = useRef(value ? time(value) : getNow())
   const yearList = Array.from({length: endTime.year - startTime.year + 1}).map((_,index) => startTime.year + index)
   const monthList = Array.from({ length: 12 }).map((_, index) => index + 1)
   const dayList = Array.from({length:valueTime. current.lastDayofMonth.day}).map((_,index)=> index+1)

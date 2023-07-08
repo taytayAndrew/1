@@ -16,6 +16,7 @@ type Parts = {
     return new Time(p)//外部使用可以直接time 而不用new
   }
   export class Time {
+    static DAY = 24*60*60*1000
     #date: Date
     constructor(p?: number | string | Date) {
       this.#date = p ? new Date(p) : new Date()//外部没有参数则传现在目前的时间
@@ -91,6 +92,10 @@ type Parts = {
     }
     set(parts:Partial<Parts>){
       this.parts = parts
+      return this
+    }
+    removeTime() {
+      this.set({hours:0,minutes:0,seconds:0,ms:0})
       return this
     }
     get dayCountOfMonth () {

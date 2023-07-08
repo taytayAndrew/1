@@ -11,7 +11,6 @@ import { Input } from "../components/Input";
 import { useAjax } from "../lib/ajax";
 import { Time, time } from "../lib/time";
 import useSWR from 'swr'
-import { timeRangeToStartAndEnd } from "../lib/timeRangeToStartAndEnd";
 
 type Group = {happen_at:string ; amount: number;}[]
 type Group2 ={tag_id:number;tag:Tag;amount:number}[]
@@ -46,7 +45,7 @@ export const StatisticsPage: React.FC = () => {
   
       })}
    
-  const {start , end} = timeRangeToStartAndEnd(timeRange)
+  const {start , end} = timeRange
   const defaultItems = generateDefaultItems(start)
   const {data: items} = useSWR(getKey({start,end,kind,group_by:'happen_at'}), async(path)=>
     (await get<{groups: Group ; total: number  }>(path)).data.groups.map(({happen_at,amount}) => ({x:happen_at , y: (amount/100).toFixed(2)}))
