@@ -48,7 +48,7 @@ export const ItemsPage:React.FC = () =>{
         {outofRange
         ?<div text-center p-15px>  自定义时间不能超过 365 天</div> 
         :<>
-        <ItemsSummary />
+        <ItemsSummary start={start} end={end} />
         <ItemsList start={start} end={end} opacity-50/>
         </>
       }
