@@ -1,5 +1,5 @@
 import useSWR from 'swr'
-import { Navigate, useNavigate } from 'react-router-dom'
+import { Link, Navigate, useNavigate } from 'react-router-dom'
 import p from '../assets/images/pig.svg'
 import { useTitle } from '../hooks/useTitle'
 import { Loading } from '../components/Loading'
@@ -19,7 +19,7 @@ export const Home: React.FC<Props> = (props) => {
   const onHttpError = (error: AxiosError) => {
     //返回状态码403就跳转
     if(error.response){
-      if(error.response?.status === 401) {//根据请求给的状态码跳转页面
+      if(error.response?.status === 403) {//根据请求给的状态码跳转页面
       nav('/sign_in')
     }
     }
@@ -51,8 +51,11 @@ export const Home: React.FC<Props> = (props) => {
       <img mt-20vh mb-20vh width="128" height="130" src={p} />
     </div>
     <div px-16px>
-      <button q-btn
+      <Link to="/items/new">
+       <button q-btn
       >开始记账</button>
+      </Link>
+     
     </div>
     <AddItemFloatButton />
   </div >

@@ -7,8 +7,8 @@ import {DateInput} from './Input/DateInput'
 type Props = {
   label?: string | ReactNode
   placeholder?: string
-  value?: string
-  _onChange?: (value: string) => void
+  value?: Item['kind']|string
+  _onChange?: (value: string|Item['kind']) => void
   error?: string
   disableError?:boolean
   className?:string
@@ -17,7 +17,7 @@ type Props = {
   | { type: 'emoji' }
   | { type: 'date' }
   | { type: 'sms_code' ; request:() => Promise<unknown>}
-  | { type: 'select'; options: { value: string; text: string }[] }
+  | { type: 'select'; options: { value: Item['kind']; text: string }[] }
 )
 export const Input: React.FC<Props> = (props) => {
   const { label, placeholder, type, value, _onChange, error,disableError,className} = props
@@ -39,7 +39,7 @@ export const Input: React.FC<Props> = (props) => {
         return <EmojiInput  {...common} />
         case 'sms_code':
           return (
-            <SmsCodeInput   {...common}/>
+            <SmsCodeInput   {...common} request={props.request} />
           )
           case 'select':
             return <select   {...common}

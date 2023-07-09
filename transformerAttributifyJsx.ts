@@ -1,5 +1,6 @@
 import type { SourceCodeTransformer } from '@unocss/core'
 import { toArray } from '@unocss/core'
+import { attributifyRE } from 'unocss'
 
 export type FilterPattern = Array<string | RegExp> | string | RegExp | null
 
@@ -37,7 +38,7 @@ export interface TransformerAttributifyJsxOptions {
   exclude?: FilterPattern
 }
 
-const elementRE = /<([^>\s]*\s)((?:'.*?'|".*?"|`.*?`|\{.*?\}|[^>]*?)*)/g
+const elementRE = /<>|<([^>\s]+\s)((?:'.*?'|".*?"|`.*?`|\{.*?\}|[^>]*?)*)/g
 const attributeRE = /([a-zA-Z()#][\[?a-zA-Z0-9-_:()#%\]?]*)(?:\s*=\s*((?:'[^']*')|(?:"[^"]*")|\S+))?/g
 const valuedAttributeRE = /((?!\d|-{2}|-\d)[a-zA-Z0-9\u00A0-\uFFFF-_:!%-.~<]+)=(?:["]([^"]*)["]|[']([^']*)[']|[{]((?:[`(](?:[^`)]*)[`)]|[^}])+)[}])/gms
 
@@ -75,6 +76,7 @@ export default function transformerAttributifyJsx(options: TransformerAttributif
       for (const item of Array.from(code.original.matchAll(elementRE))) {
         // Get the length of the className part, and replace it with the equal length of empty string
         let attributifyPart = item[2]
+        if (attributifyPart === undefined) { continue }
         if (valuedAttributeRE.test(attributifyPart))
           attributifyPart = attributifyPart.replace(valuedAttributeRE, match => ' '.repeat(match.length))
         for (const attr of attributifyPart.matchAll(attributeRE)) {

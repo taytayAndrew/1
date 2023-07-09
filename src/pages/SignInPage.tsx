@@ -35,9 +35,11 @@ export const SignInPage:React.FC = () =>{
           //获取jwt
           const jwt = response.data.jwt
           console.log('jwt',jwt)
+
           localStorage.setItem('jwt',jwt)
           //jwt存入localstorage
           const from = search.get('from') || '/items'
+          
           nav(from)
           //回到登陆前的页面
         }

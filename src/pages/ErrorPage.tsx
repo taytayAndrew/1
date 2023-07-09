@@ -5,7 +5,8 @@ export const ErrorPage :React.FC = () =>{
     const loc = useLocation()
     const from = encodeURIComponent(`${loc.pathname}${loc.search}`)
     if(error.message === 'unauthorized'){
-            return <Navigate to={`/sign_in?from=${from}`} /> 
+     
+            return <Navigate replace to={`/sign_in?from=${from}`} /> 
     }
     else{
         return <div>未知错误</div>
