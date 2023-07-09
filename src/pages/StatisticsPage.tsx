@@ -96,7 +96,7 @@ export const StatisticsPage: React.FC = () => {
           <Input type='select' options = {[
             { text: '支出', value: 'expenses' },
             { text: '收入', value: 'income' },
-          ]} value={kind} onChange={value => setKind(value)  }disableError/> 
+          ]} value={kind} _onChange={value => setKind(value)  }disableError/> 
           
         </div>
       </div>

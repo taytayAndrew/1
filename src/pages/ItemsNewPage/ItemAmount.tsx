@@ -56,6 +56,7 @@ export const ItemAmount: React.FC<Props> = (props) => {
           flex
           p-16px
           border-t-1px
+          b-t-solid
           border-t="#ddd"
           gap-x-8px
           items-center

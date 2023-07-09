@@ -12,8 +12,10 @@ type Props = {
 export const ItemsSummary:React.FC<Props> = (props) =>{
     const {start ,end} = props
     const {get} = useAjax({showLoading:false,handleError:false})
-    const {data} = useSWR(start && end &&`/api/v1/items/balance?happened_after=${start.IosString}&happened_before=${end.IosString}`,async(path)=>
-        (await get<{balance:number; expenses: number; income: number}>(path)).data
+    const {data} = useSWR(`/api/v1/items/balance?happened_after=${start.IosString}&happened_before=${end.IosString}`,async(path)=>{
+        return (await get<{balance:number; expenses: number; income: number}>(path)).data
+    }
+        
     )
     const {balance, expenses,income} = data ?? {balance:0,expenses:0,income:0}
  return (
