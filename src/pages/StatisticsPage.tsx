@@ -23,9 +23,7 @@ type GetKeyParams = {
 }
 const getKey = (props:GetKeyParams) => {
   const {start, end, kind,group_by} = props
-  return`/api/v1/items/summary?happened_after=${start.format(format)}
-  &happened_before=${end.format(format)}&kind=${kind}
-  &group_by=${group_by}`
+  return`/api/v1/items/summary?happened_after=${start.format(format)}&happened_before=${end.format(format)}&kind=${kind}&group_by=${group_by}`
 }
 export const StatisticsPage: React.FC = () => {
   const format = 'yyyy-MM-dd'
@@ -50,8 +48,7 @@ export const StatisticsPage: React.FC = () => {
 
   const { data: items } = useSWR(getKey({ start, end, kind, group_by: 'happen_at' }),
     async (path) =>
-      (await get<{ groups: Group; total: number }>(path)).data.groups
-        .map(({ happen_at, amount }) => ({ x: happen_at, y: (amount / 100).toFixed(2) })))
+      (await get<{ groups: Group; total: number }>(path)).data.groups.map(({ happen_at, amount }) => ({ x: happen_at, y: (amount / 100).toFixed(2) })))
 
   console.log('items:'+ items?.[0])
  const noramlizedItems = defaultItems?.map((defaultItem ) => {
@@ -83,7 +80,7 @@ export const StatisticsPage: React.FC = () => {
         <TimeRangePick selected={timeRange} onSelected={setTimeRange}  timeRanges={[
        {
         text: '本月',
-        key: { name: 'this month', start: time().firstDayofMonth, end: time().add(1, 'day') },
+        key: { name: 'this month', start: time().firstDayofMonth, end: time().lastDayofMonth.add(1, 'day') },
       },
       {
         text: '上月',

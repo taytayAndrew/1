@@ -20,7 +20,7 @@ import { ComingSoonPage } from '../pages/ComingSoonPage'
 
 export const router = createBrowserRouter([
   { path: '/', element: <Root />, },
-  { path: '/home', element: <Home title="首页" /> },
+  { path: '/home', element: <Home /> },
   {
     path: '/welcome',
     element: <WelcomeLayout />,
