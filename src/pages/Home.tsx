@@ -23,7 +23,6 @@ export const Home: React.FC = (props) => {
     }
     throw(error)
   }
-  useTitle(props.title)
   const { data: meData, error: meError } = useSWR('/api/v1/me', async path =>
   {
    const response = await get<Resource<User>>(path).catch(onHttpError)
