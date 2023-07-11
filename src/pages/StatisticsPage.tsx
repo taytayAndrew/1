@@ -47,14 +47,14 @@ export const StatisticsPage: React.FC = () => {
    
   const {start , end} = timeRange
   const defaultItems = generateDefaultItems(start)
-  console.log(getKey({start,end,kind,group_by:'happen_at'}))
-  const {data} = useSWR(getKey({start,end,kind,group_by:'happen_at'}), async(path)=>
-    (await get<{groups: Group ; total: number  }>(path)).data.groups.map(({happen_at,amount}) => ({x:happen_at , y: (amount/100).toFixed(2)}))
+  const { data: items } = useSWR(getKey({ start, end, kind, group_by: 'happen_at' }),
+    async (path) =>
+      (await get<{ groups: Group; total: number }>(path)).data.groups
+        .map(({ happen_at, amount }) => ({ x: happen_at, y: (amount / 100).toFixed(2) }))
   )
-
+  console.log('items:'+ items?.[0])
  const noramlizedItems = defaultItems?.map((defaultItem ) => {
-   const item = data?.find((item) => item.x === defaultItem.x)
-   console.log('item'+ item)
+   const item = items?.find((item) => item.x === defaultItem.x)
    if(item)
    {
     return {x: defaultItem.x ,y: item.y}
@@ -62,9 +62,12 @@ export const StatisticsPage: React.FC = () => {
     return defaultItem
    }
   })
-  const {data: items2} = useSWR(getKey({start,end,kind,group_by:'tag_id'}), async(path)=>
-    (await get<{groups: Group2 ; total: number  }>(path)).data.groups.map(({tag_id,tag,amount}) => ({name:tag.name , value: (amount/100).toFixed(2),sign : tag.sign}))
-  )
+  const { data: items2 } = useSWR(getKey({ start, end, kind, group_by: 'tag_id' }),
+  async (path) =>
+    (await get<{ groups: Group2; total: number }>(path)).data.groups
+      .map(({ tag_id, tag, amount }) =>
+        ({ name: tag.name, value: (amount / 100).toFixed(2), sign: tag.sign }))
+)
 
   return (
     <div>

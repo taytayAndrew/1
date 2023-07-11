@@ -4,11 +4,11 @@ import { SmsCodeInput } from './Input/SmsCodeInput'
 import cs from 'classnames'
 import {DateInput} from './Input/DateInput'
 
-type Props = {
+type Props<T> = {
   label?: string | ReactNode
   placeholder?: string
-  value?: Item['kind']|string
-  _onChange?: (value: string|Item['kind']) => void
+  value?: T
+  _onChange?: (value: T) => void
   error?: string
   disableError?:boolean
   className?:string
@@ -19,13 +19,13 @@ type Props = {
   | { type: 'sms_code' ; request:() => Promise<unknown>}
   | { type: 'select'; options: { value: Item['kind']; text: string }[] }
 )
-export const Input: React.FC<Props> = (props) => {
+export const Input = <T extends string>(props:Props<T>) => {
   const { label, placeholder, type, value, _onChange, error,disableError,className} = props
   const onChange = (e:string|ChangeEvent<HTMLInputElement| HTMLSelectElement>) => {
     if(typeof e === 'string'){
-      _onChange?.(e)
+      _onChange?.(e as T)
     }else{
-      _onChange?.(e.target.value)
+      _onChange?.(e.target.value as T)
 
     }
   }
