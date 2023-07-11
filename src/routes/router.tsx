@@ -1,4 +1,4 @@
-import { Outlet, createBrowserRouter } from 'react-router-dom'
+import { Outlet, createBrowserRouter, createHashRouter } from 'react-router-dom'
 import type { AxiosError } from 'axios'
 import { Root } from '../components/Root'
 import { WelcomeLayout } from '../layouts/WelcomeLayout'
@@ -18,7 +18,7 @@ import { ItemPageError } from '../pages/ItemPageError'
 import { ajax } from '../lib/ajax'
 import { ComingSoonPage } from '../pages/ComingSoonPage'
 
-export const router = createBrowserRouter([
+export const router = createHashRouter([
   { path: '/', element: <Root />, },
   { path: '/home', element: <Home title="首页" /> },
   {
