@@ -52,7 +52,7 @@ export const Home: React.FC<Props> = (props) => {
       <Icon className='mt-20vh mb-20vh w-128px h-128px' name='pig'/>
     </div>
     <div px-16px>
-      <Link to="/items/new">
+      <Link to="/items">
        <button q-btn
       >开始记账</button>
       </Link>

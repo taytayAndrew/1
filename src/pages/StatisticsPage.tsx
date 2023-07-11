@@ -47,6 +47,7 @@ export const StatisticsPage: React.FC = () => {
    
   const {start , end} = timeRange
   const defaultItems = generateDefaultItems(start)
+  console.log(getKey({start,end,kind,group_by:'happen_at'}))
   const {data} = useSWR(getKey({start,end,kind,group_by:'happen_at'}), async(path)=>
     (await get<{groups: Group ; total: number  }>(path)).data.groups.map(({happen_at,amount}) => ({x:happen_at , y: (amount/100).toFixed(2)}))
   )

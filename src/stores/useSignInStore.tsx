@@ -15,7 +15,7 @@ export const useSignInStore = create<SignIn>((set,get) => ({
   data: {
     //TODO 删掉此默认邮箱地址
     email: "1273724496@qq.com",
-    code: "",
+    code: "123456",
   },
   error:{
     email:[],
