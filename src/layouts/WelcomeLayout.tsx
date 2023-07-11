@@ -59,7 +59,7 @@ export const WelcomeLayout: React.FC = () => {
   const { setHasReadWelcomes } = useLocalStore()
   const onSkip = () => {
     setHasReadWelcomes(true)
-    nav('/welcome/xxx')
+    nav('/home')
   }
   return (
     <div className="bg-#33cbda" h-screen flex flex-col items-stretch pb-16px>

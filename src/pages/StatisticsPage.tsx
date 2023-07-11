@@ -1,6 +1,5 @@
 import { useEffect, useRef, useState } from "react";
 import { Gradient } from "../components/Gradient";
-import { Icon } from "../components/Icon";
 import { TimeRangePick } from "../components/TimeRangePick";
 import { Topnav } from "../components/Topnav";
 import type { TimeRanges } from "../components/TimeRangePick";
@@ -11,6 +10,7 @@ import { Input } from "../components/Input";
 import { useAjax } from "../lib/ajax";
 import { Time, time } from "../lib/time";
 import useSWR from 'swr'
+import { BackIcon } from "../components/BackIcon";
 
 type Group = {happen_at:string ; amount: number;}[]
 type Group2 ={tag_id:number;tag:Tag;amount:number}[]
@@ -47,11 +47,12 @@ export const StatisticsPage: React.FC = () => {
    
   const {start , end} = timeRange
   const defaultItems = generateDefaultItems(start)
-  const {data: items} = useSWR(getKey({start,end,kind,group_by:'happen_at'}), async(path)=>
+  const {data} = useSWR(getKey({start,end,kind,group_by:'happen_at'}), async(path)=>
     (await get<{groups: Group ; total: number  }>(path)).data.groups.map(({happen_at,amount}) => ({x:happen_at , y: (amount/100).toFixed(2)}))
   )
+
  const noramlizedItems = defaultItems?.map((defaultItem ) => {
-   const item = items?.find((item) => item.x === defaultItem.x)
+   const item = data?.find((item) => item.x === defaultItem.x)
    console.log('item'+ item)
    if(item)
    {
@@ -69,7 +70,7 @@ export const StatisticsPage: React.FC = () => {
       <Gradient>
         <Topnav
           title="统计图标"
-          icon={<Icon name="back" className="w-24px h-24px" />}
+          icon={<BackIcon />}
         />
         <TimeRangePick selected={timeRange} onSelected={setTimeRange}  timeRanges={[
        {

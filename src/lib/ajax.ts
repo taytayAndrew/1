@@ -54,18 +54,18 @@ export const useAjax = (options?:Options) => {
     }
     throw error
   }
-return {
-    get: <T>(path: string , config?:AxiosRequestConfig<any> ) => {
-      if(showLoading){setVisible(true)}
-      return ajax.get<T>(path, config).catch(onError).finally(() =>{
-         if(showLoading){setVisible(false)}
-      })    },
-    post: <T>(path:string, data:JSONValue) => { 
-      if(showLoading){setVisible(true)}
-      return ajax.post<T>(path, data).catch(onError).finally(() =>{
-         if(showLoading){setVisible(false)}
+  return {
+    get: <T>(path: string, config?: AxiosRequestConfig<any>) => {
+      if (showLoading) { setVisible(true) }
+      return ajax.get<T>(path, config).catch(onError).finally(() => {
+        if (showLoading) { setVisible(false) }
       })
-     
+    },
+    post: <T>(path: string, data: JSONValue) => {
+      if (showLoading) { setVisible(true) }
+      return ajax.post<T>(path, data).catch(onError).finally(() => {
+        if (showLoading) { setVisible(false) }
+      })
     },
     patch: <T>(path: string, data: JSONValue) => {
       if (showLoading) { setVisible(true) }

@@ -16,6 +16,7 @@ import { StatisticsPage } from '../pages/StatisticsPage'
 import { ErrorPage } from '../pages/ErrorPage'
 import { ItemPageError } from '../pages/ItemPageError'
 import { ajax } from '../lib/ajax'
+import { ComingSoonPage } from '../pages/ComingSoonPage'
 
 export const router = createBrowserRouter([
   { path: '/', element: <Root />, },
@@ -38,9 +39,12 @@ export const router = createBrowserRouter([
     element: <Outlet />,
     errorElement: <ErrorPage />,
     loader: async () =>{
-    
       return await ajax.get<Resource<User>>('/api/v1/me').catch(e => {
          if (e.response?.status === 401) { throw new Error('unauthorized') }
+         else{
+          throw e
+         }
+         
     
       })
     },
@@ -50,19 +54,18 @@ export const router = createBrowserRouter([
         element: <ItemsPage />,
         errorElement: <ItemPageError />,
         loader: async () => {
-     
           const onError = (error: AxiosError) => {
-            if (error.response?.status === 401) { throw new Error('unauthorized')}
+            console.log(error) 
+            if (error.response?.status === 401) { throw new Error('unauthorized') }
             throw error
           }
-         
-            const response = await ajax.get<Resources<Item>>('/api/v1/items?page=1').catch(onError)
-            if (response.data.resources.length > 0) {
-              return response.data
-            } else {
-              throw new Error('empty_data')
-            }
- 
+          const response = await ajax.get<Resources<Item>>('/api/v1/items?page=1').catch(onError)
+          console.log(response)
+          if (response.data.resources.length > 0) {
+            return response.data
+          } else {
+            throw new Error('empty_data')
+          }
         }
       },
       {
@@ -73,8 +76,8 @@ export const router = createBrowserRouter([
       { path: '/tags/new', element: <TagsNewPage /> },
       { path: '/tags/:id', element: <TagsEditPage /> },
       { path: '/statistics', element: <StatisticsPage /> },
-      { path: '/export', element: <div>敬请期待</div> },
-      { path: '/noty', element: <div>敬请期待</div> },
+      { path: '/export', element: <ComingSoonPage /> },
+      { path: '/noty', element: <ComingSoonPage /> },
     ]
   },
 ])

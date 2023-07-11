@@ -19,7 +19,7 @@ export const ItemsSummary:React.FC<Props> = (props) =>{
     )
     const {balance, expenses,income} = data ?? {balance:0,expenses:0,income:0}
  return (
-    <ol bg-black flex flex-row rounded-8px items-center justify-between  children-px-10px m-16px py-12px px-16px>
+    <ol bg-black flex flex-row rounded-8px items-center justify-between  children-px-8px m-16px py-12px px-24px>
         <li text="#FE7275">
             <div>收入</div>
             <div><Money value={income}/></div>

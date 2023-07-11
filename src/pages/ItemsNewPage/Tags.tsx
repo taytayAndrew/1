@@ -4,7 +4,6 @@ import { useAjax } from "../../lib/ajax";
 import useSWRInfinite from "swr/infinite";
 import styled from "styled-components";
 import { useRef } from "react";
-import type { TouchEvent } from 'react'
 import { LongPressable } from "../../components/LongPressable";
 
 

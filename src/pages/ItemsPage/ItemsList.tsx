@@ -1,7 +1,7 @@
 import React from "react";
 import useSWRInfinite from "swr/infinite";
 import { useAjax } from "../../lib/ajax";
-import { Time } from "../../lib/time";
+import { Time, time } from "../../lib/time";
 
 
 interface Props {
@@ -27,7 +27,7 @@ export const ItemsList: React.FC<Props> = (props) => {
   const { data, error, size, setSize } = useSWRInfinite(
     getKey,
     async (path) => (await get<Resources<Item>>(path)).data,
-    { revalidateFirstPage : false }//SWR会自动自动更新缓存 ，会多一次请求的原因是 他需要你在请求下一页时 你的第一页是否就就还是原先的数据 如果不是 那就要把最新的数据插入到前面 要在每一次请求第一页的时候都去请求第一页 以达到更新缓存的效果 如果第一页数据变化，会继续请求下一页
+    { revalidateAll: true }//SWR会自动自动更新缓存 ，会多一次请求的原因是 他需要你在请求下一页时 你的第一页是否就就还是原先的数据 如果不是 那就要把最新的数据插入到前面 要在每一次请求第一页的时候都去请求第一页 以达到更新缓存的效果 如果第一页数据变化，会继续请求下一页
   );
 const loadMore = () =>{
   setSize(size + 1)
@@ -70,13 +70,13 @@ const isLoading  = isLoadingInitialData || isLoadingMore
                 😍
               </div>
               <div row-start-1 col-start-2 row-end-2 col-end-3>
-                旅行
+              {item.tags?.[0].name}
               </div>
               <div row-start-2 col-start-2 row-end-3 col-end-4 text="#999999">
-                2011年1月1日
+              {time(item.happen_at).format()}
               </div>
               <div row-start-1 col-start-3 row-end-2 col-end-4 text="#53A867">
-                ￥{item.amount / 1000}
+                ￥{item.amount/100 }
               </div>
             </li>
           ));

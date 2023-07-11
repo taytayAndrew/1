@@ -6,6 +6,7 @@ import { Loading } from '../components/Loading'
 import { AddItemFloatButton } from '../components/AddItemFloatButton'
 import { useAjax } from '../lib/ajax'
 import { AxiosError } from 'axios'
+import { Icon } from '../components/Icon'
 interface Props {
   title?: string
 }
@@ -48,7 +49,7 @@ export const Home: React.FC<Props> = (props) => {
 
   return <div>
     <div flex justify-center items-center>
-      <img mt-20vh mb-20vh width="128" height="130" src={p} />
+      <Icon className='mt-20vh mb-20vh w-128px h-128px' name='pig'/>
     </div>
     <div px-16px>
       <Link to="/items/new">

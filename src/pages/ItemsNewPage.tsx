@@ -1,6 +1,5 @@
 import { FormEventHandler, ReactNode, useState } from "react";
 import { Gradient } from "../components/Gradient";
-import { Icon } from "../components/Icon";
 import { Tabs } from "../components/Tab";
 import { Topnav } from "../components/Topnav";
 import s from "./ItemsNewPage.module.scss";
@@ -12,6 +11,9 @@ import { ItemData } from "./ItemData";
 import { hasError, validate } from "../lib/validate";
 import { useAjax } from "../lib/ajax";
 import { BackIcon } from "../components/BackIcon";
+import { useNavigate } from "react-router-dom";
+import { time } from "../lib/time";
+
 vhCheck()
 
 export const ItemsNewPage: React.FC = () => {
@@ -31,7 +33,9 @@ export const ItemsNewPage: React.FC = () => {
 }
 ] // React DOM diff 的优化
   const {post} = useAjax({showLoading:true , handleError: true})
-  const onSubmit = async() => {
+  const nav = useNavigate()
+  const onSubmit:FormEventHandler<HTMLFormElement>= async(e) => {
+    e.preventDefault()
     const error = validate(data,[
       {key:'kind' , type:'required' , message:'请选择类型：收入或支出'},
       {key:'tag_ids' , type:'required' , message:'请选择一个标签'},
@@ -45,9 +49,9 @@ export const ItemsNewPage: React.FC = () => {
       console.log(Object.values(error))
       alert(message)
     }else{
-      const response = await post<Resource<Item>>('/api/v1/items' , data)
-      console.log(response.data.resource)
-
+      await post<Resource<Item>>('/api/v1/items' , data)
+      setData({amount:0, happen_at:time().IosString})
+      nav('/items')
     }
 
   }
@@ -68,7 +72,7 @@ export const ItemsNewPage: React.FC = () => {
       <ItemAmount className="grow-0 shrink-0" 
       ItemData={<ItemData value={data.happen_at}
       onChange={(happen_at) => setData({happen_at})} />} 
-      value = {data.amount} onChange= {amount => setData({amount}) } onSubmit={onSubmit}
+      value = {data.amount} onChange= {amount => setData({amount}) } 
       />
     </ form>
   );
