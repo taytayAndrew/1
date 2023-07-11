@@ -64,10 +64,13 @@ export const StatisticsPage: React.FC = () => {
    }
   })
   const { data: items2 } = useSWR(getKey({ start, end, kind, group_by: 'tag_id' }),
-  async (path) =>
-    (await get<{ groups: Group2; total: number }>(path)).data.groups
+  async (path) => {
+   const data = (await get<{ groups: Group2; total: number }>(path)).data
+   console.log(data)
+   return data.groups
       .map(({ tag_id, tag, amount }) =>
         ({ name: tag.name, value: (amount / 100).toFixed(2), sign: tag.sign }))
+  }
 )
 
   return (
@@ -80,7 +83,7 @@ export const StatisticsPage: React.FC = () => {
         <TimeRangePick selected={timeRange} onSelected={setTimeRange}  timeRanges={[
        {
         text: '本月',
-        key: { name: 'this month', start: time().firstDayofMonth, end: time().lastDayofMonth.add(1, 'day') },
+        key: { name: 'this month', start: time().firstDayofMonth, end: time().add(1, 'day') },
       },
       {
         text: '上月',
