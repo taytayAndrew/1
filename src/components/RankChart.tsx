@@ -37,7 +37,7 @@ const renderItems = () => {
     <div className={className}>{
         items
           ? renderItems()
-          : <div text-center>暂无数据</div>
+          : <div text-center>暂无任何数据</div>
       }</div>
     )
 }
