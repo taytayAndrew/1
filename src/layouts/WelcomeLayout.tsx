@@ -65,8 +65,8 @@ export const WelcomeLayout: React.FC = () => {
     <div className="bg-#33cbda" h-screen flex flex-col items-stretch pb-16px>
       <span fixed text-white top-16px right-16px text-32px onClick={onSkip} >跳过</span>
       <header shrink-0 text-center pt-64px>
-        <img src={logo} w-64px h-69px />
-        <h1 text="#D4D4EE" text-32px>猫尾记账</h1>
+        <img w-100px h-100px bg-white rounded-50px src={logo} w-64px h-69px />
+        <h1 text="white"  text-32px >猫尾记账</h1>
       </header>
       <main shrink-1 grow-1 relative ref={main} >
         {transitions((style, pathname) =>
