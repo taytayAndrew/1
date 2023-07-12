@@ -15,13 +15,13 @@ export const useCreateItemStore = create<CreateItem>((set, get) => {
     data: {
       kind: 'expenses',
       tag_ids: [],
-      happen_at: time().format(),
+      happened_at: time().format(),
       amount: 99
     },
     error: {
       kind: [],
       tag_ids: [],
-      happen_at: [],
+      happened_at: [],
       amount: []
     },
     setData: (data: Partial<Data>) => {

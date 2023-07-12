@@ -73,7 +73,7 @@ const isLoading  = isLoadingInitialData || isLoadingMore
               {item.tags?.[0].name}
               </div>
               <div row-start-2 col-start-2 row-end-3 col-end-4 text="#999999">
-              {time(item.happen_at).format()}
+              {time(item.happened_at).format()}
               </div>
               <div row-start-1 col-start-3 row-end-2 col-end-4 text="#53A867">
                 ￥{item.amount/100 }

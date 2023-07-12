@@ -39,7 +39,7 @@ export const ItemsNewPage: React.FC = () => {
     const error = validate(data,[
       {key:'kind' , type:'required' , message:'请选择类型：收入或支出'},
       {key:'tag_ids' , type:'required' , message:'请选择一个标签'},
-      {key:'happen_at' , type:'required' , message:'请选择一个时间'},
+      {key:'happened_at' , type:'required' , message:'请选择一个时间'},
       {key:'amount' , type:'required' , message:'请输入金额'},
       {key:'amount' , type:'notEqual' ,value:0, message:'金额不能为0'},  
     ])
@@ -50,7 +50,7 @@ export const ItemsNewPage: React.FC = () => {
       alert(message)
     }else{
       await post<Resource<Item>>('/api/v1/items' , data)
-      setData({amount:0, happen_at:time().IosString})
+      setData({amount:0, happened_at:time().IosString})
       nav('/items')
     }
 
@@ -70,8 +70,8 @@ export const ItemsNewPage: React.FC = () => {
         classPrefix="itemsNewTabs"
       />
       <ItemAmount className="grow-0 shrink-0" 
-      ItemData={<ItemData value={data.happen_at}
-      onChange={(happen_at) => setData({happen_at})} />} 
+      ItemData={<ItemData value={data.happened_at}
+      onChange={(happened_at) => setData({happened_at: happened_at})} />} 
       value = {data.amount} onChange= {amount => setData({amount}) } 
       />
     </ form>

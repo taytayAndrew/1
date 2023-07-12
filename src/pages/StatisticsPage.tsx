@@ -12,14 +12,14 @@ import { Time, time } from "../lib/time";
 import useSWR from 'swr'
 import { BackIcon } from "../components/BackIcon";
 
-type Group = {happen_at:string ; amount: number;}[]
+type Group = {happened_at:string ; amount: number;}[]
 type Group2 ={tag_id:number;tag:Tag;amount:number}[]
 const format = 'yyyy-MM-dd'
 type GetKeyParams = {
   start:Time
   end:Time
   kind:Item['kind']
-  group_by:'happen_at' | 'tag_id'
+  group_by:'happened_at' | 'tag_id'
 }
 const getKey = (props:GetKeyParams) => {
   const {start, end, kind,group_by} = props
@@ -46,9 +46,9 @@ export const StatisticsPage: React.FC = () => {
   const {start , end} = timeRange
   const defaultItems = generateDefaultItems(start)
 
-  const { data: items } = useSWR(getKey({ start, end, kind, group_by: 'happen_at' }),
+  const { data: items } = useSWR(getKey({ start, end, kind, group_by: 'happened_at' }),
     async (path) =>
-      (await get<{ groups: Group; total: number }>(path)).data.groups.map(({ happen_at, amount }) => ({ x: happen_at, y: (amount / 100).toFixed(2) })))
+      (await get<{ groups: Group; total: number }>(path)).data.groups.map(({ happened_at, amount }) => ({ x: happened_at, y: (amount / 100).toFixed(2) })))
 
   console.log('items:'+ items?.[0])
  const noramlizedItems = defaultItems?.map((defaultItem ) => {

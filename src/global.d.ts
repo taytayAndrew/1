@@ -26,7 +26,7 @@ type Item = {
   note?: string
   tags?:Tag[]
   tag_ids: number[]
-  happen_at: string
+  happened_at: string
   created_at: string
   updated_at: string
   kind: 'expenses' | 'income'

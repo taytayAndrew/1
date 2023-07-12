@@ -6,12 +6,12 @@ export const summaryMock: MockMethod[] = [
   method: 'get',
   statusCode: 200,
   response: ({ query }: ResponseParams) => {
-    if(query.group_by === 'happen_at')
+    if(query.group_by === 'happened_at')
     return {
         groups: [
-          { happen_at: '2023-06-15', tag: null, amount: 600 },
-          { happen_at: '2023-06-16', tag: null, amount: 200 },
-          { happen_at: '2023-06-17', tag: null, amount: 100 }
+          { happened_at: '2023-06-15', tag: null, amount: 600 },
+          { happened_at: '2023-06-16', tag: null, amount: 200 },
+          { happened_at: '2023-06-17', tag: null, amount: 100 }
         ],
         total: 900
       }
