@@ -12,11 +12,14 @@ import { Welcome3 } from '../pages/Welcome3'
 import { Welcome4 } from '../pages/Welcome4'
 import { TagsNewPage } from '../pages/TagsNewPage'
 import { TagsEditPage } from '../pages/TagsEditPage'
-import { StatisticsPage } from '../pages/StatisticsPage'
 import { ErrorPage } from '../pages/ErrorPage'
 import { ItemPageError } from '../pages/ItemPageError'
 import { ajax } from '../lib/ajax'
 import { ComingSoonPage } from '../pages/ComingSoonPage'
+import { Suspense, lazy } from 'react'
+import { Loading } from '../components/Loading'
+
+const StatisticsPage = lazy(() => import('../pages/StatisticsPage'))
 
 export const router = createHashRouter([
   { path: '/', element: <Root />, },
@@ -75,7 +78,7 @@ export const router = createHashRouter([
       { path: '/tags', element: <div>标签</div> },
       { path: '/tags/new', element: <TagsNewPage /> },
       { path: '/tags/:id', element: <TagsEditPage /> },
-      { path: '/statistics', element: <StatisticsPage /> },
+      { path: '/statistics', element: <Suspense fallback={<Loading />}><StatisticsPage /></Suspense> },
       { path: '/export', element: <ComingSoonPage /> },
       { path: '/noty', element: <ComingSoonPage /> },
     ]

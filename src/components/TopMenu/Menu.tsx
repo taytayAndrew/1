@@ -12,7 +12,7 @@ const MyIcon = styled(Icon)`
   margin-right: 16px;
 `;
 const items = [
-  { key: "items", icon: "pig", text: "记账", to: "/items" },
+  { key: "items", icon: "pig", text: "记账", to: "/items/new" },
   { key: "chart", icon: "chart", text: "统计图表", to: "/statistics" },
   { key: "export", icon: "export", text: "导出数据", to: "/export" },
   { key: "noty", icon: "noty", text: "记账提醒", to: "/noty" },

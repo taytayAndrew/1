@@ -112,3 +112,5 @@ export const StatisticsPage: React.FC = () => {
     </div>
   );
 };
+
+export default StatisticsPage

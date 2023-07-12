@@ -6,6 +6,7 @@ import { AddItemFloatButton } from '../components/AddItemFloatButton'
 import { useAjax } from '../lib/ajax'
 import { AxiosError } from 'axios'
 import { Icon } from '../components/Icon'
+import { lazy } from 'react'
 
 
 
@@ -36,7 +37,7 @@ export const Home: React.FC = (props) => {
   const isLoadingItems = meData && !itemsData && !itemsError
 
   if (isLoadingMe || isLoadingItems) {
-    return <Loading className="h-screen" />
+    return <div text-center p-16px>加载中...</div>
   }
 
   if (itemsData?.resources[0]) {

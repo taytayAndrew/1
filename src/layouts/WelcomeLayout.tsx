@@ -11,7 +11,7 @@ const nextLinkMap: Record<string, string> = {
   '/welcome/1': '/welcome/2',
   '/welcome/2': '/welcome/3',
   '/welcome/3': '/welcome/4',
-  '/welcome/4': '/welcome/xxx',
+  '/welcome/4': '/home',
 }
 const prevLinkMap: Record<string, string> = {
   '/welcome/2': '/welcome/1',
