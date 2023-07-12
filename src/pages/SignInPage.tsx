@@ -74,7 +74,7 @@ export const SignInPage:React.FC = () =>{
         </Gradient>
         <div text-center pt-40px pb-16px>
         <Icon name="logo" className='w-64px h-68px' />
-        <h1 text-32px text="#7878FF" font-bold>山竹记账</h1>
+        <h1 text-32px text="#b9c6eb" font-bold>猫尾记账</h1>
       </div>
       <form j-form onSubmit={onSubmit}>
         {/* <div b-1 b-red>{JSON.stringify(data)}</div> 

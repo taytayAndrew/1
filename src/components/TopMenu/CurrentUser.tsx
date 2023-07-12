@@ -31,13 +31,13 @@ export const CurrentUser: React.FC<Props> = ({ className }) => {
         {error ? (
         <Link to='/sign_in'>
           <h2 text-24px>未登录用户</h2>
-          <div text="#CEA1FF">点击这里登录</div>
+          <div text="purple">点击这里登录</div>
         </Link>
         )
         : (
         <div onClick={logout}>
           <h2 text-24px overflow-hidden text-ellipsis title={name}>{name}</h2>
-          <div text="#CEA1FF" >点击这里退出登录</div>
+          <div text="purple" p-t-8px>点击这里退出登录</div>
         </div>)
       }
       
